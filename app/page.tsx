@@ -248,6 +248,7 @@ export default function Portfolio() {
         </div>
       </section>
 
+            
             {/* LOGO & BRANDING */}
       <section className="max-w-5xl mx-auto mt-32">
         <h2 className="text-3xl font-semibold mb-10">Branding & Logo Design</h2>
@@ -275,6 +276,43 @@ export default function Portfolio() {
           )}
         </div>
       </section>
+
+{/* CONTACT */}
+<section className="max-w-4xl mx-auto mt-32 text-center">
+  <h2 className="text-3xl font-semibold mb-6">Contact Me</h2>
+  <p className="text-slate-400 mb-10">
+    Feel free to reach out for collaboration, freelance work, or full-time opportunities.
+  </p>
+
+  <div className="flex flex-col md:flex-row justify-center gap-6">
+    {/* Email */}
+    <a
+      href="mailto:masbin544@gmail.com"
+      className="group flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-slate-900 border border-slate-800 transition hover:border-sky-500"
+    >
+      <span className="text-slate-400 group-hover:text-sky-400 transition">
+        📧
+      </span>
+      <span className="text-slate-300 group-hover:text-sky-400 transition">
+        masbin544@gmail.com
+      </span>
+    </a>
+
+    {/* WhatsApp */}
+    <a
+      href="https://wa.me/6281774178707"
+      target="_blank"
+      className="group flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-slate-900 border border-slate-800 transition hover:border-sky-500"
+    >
+      <span className="text-slate-400 group-hover:text-sky-400 transition">
+        💬
+      </span>
+      <span className="text-slate-300 group-hover:text-sky-400 transition">
+        +62 817 7417 8707
+      </span>
+    </a>
+  </div>
+</section>
 
       {/* FOOTER */}
       <footer className="max-w-5xl mx-auto mt-40 border-t border-slate-800 pt-10 text-center">
