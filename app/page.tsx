@@ -166,7 +166,7 @@ export default function Portfolio() {
         </h1>
 
         <p className="mt-6 text-slate-400 max-w-xl mx-auto">
-          UI/UX & Graphic Designer with 1+ year experience crafting clean,
+          UI/UX, Web Junior Dev & Graphic Designer with 2+ year experience crafting clean,
           functional, and elegant digital products.
         </p>
 
@@ -420,7 +420,7 @@ export default function Portfolio() {
       {/* FOOTER */}
       <footer className="max-w-5xl mx-auto mt-40 border-t border-slate-800 pt-10 text-center">
         <p className="text-slate-500 text-sm">
-          © {new Date().getFullYear()} Bintang Akbar Alim — UI/UX Designer
+          © {new Date().getFullYear()} Bintang Akbar Alim — UI/UX Designer, Web Junior Developer & Graphic Designer
         </p>
       </footer>
     </div>
