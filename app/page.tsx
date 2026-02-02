@@ -182,26 +182,129 @@ export default function Portfolio() {
 
       {/* ABOUT */}
       <section className="max-w-4xl mx-auto mt-32">
-        <h2 className="text-3xl font-semibold mb-6">About Me</h2>
-        <p className="text-slate-300 leading-relaxed mb-4">
-          Saya adalah <span className="text-sky-400 font-medium">UI/UX Designer</span> dan
-          <span className="text-sky-400 font-medium"> Graphic Designer</span> dengan pengalaman
-          lebih dari satu tahun dalam merancang solusi digital yang fungsional,
-          estetis, dan berorientasi pada pengguna.
-        </p>
-        <p className="text-slate-300 leading-relaxed mb-4">
-          Dalam peran UI/UX, saya berfokus pada perancangan user flow, wireframing,
-          dan prototyping menggunakan Figma untuk memastikan pengalaman pengguna
-          yang intuitif dan efisien. Sementara sebagai Graphic Designer, saya
-          terbiasa mengerjakan desain logo, visual branding, serta elemen grafis
-          yang konsisten dengan identitas brand.
-        </p>
-        <p className="text-slate-400 leading-relaxed">
-          Saya percaya bahwa desain yang baik tidak hanya terlihat menarik, tetapi
-          juga mampu menyampaikan pesan, membangun kepercayaan, dan memberikan
-          dampak nyata bagi pengguna maupun bisnis.
-        </p>
-      </section>
+  <h2 className="text-3xl font-semibold mb-6">About Me</h2>
+
+  <p className="text-slate-300 leading-relaxed mb-4">
+    Saya adalah{" "}
+    <span className="text-sky-400 font-medium">UI/UX Designer</span>,{" "}
+    <span className="text-sky-400 font-medium">Graphic Designer</span>, dan{" "}
+    <span className="text-sky-400 font-medium">Junior Web Developer</span> dengan
+    pengalaman lebih dari satu tahun dalam merancang dan membangun solusi digital
+    yang fungsional, estetis, serta berorientasi pada pengguna.
+  </p>
+
+  <p className="text-slate-300 leading-relaxed mb-4">
+    Dalam peran UI/UX, saya berfokus pada perancangan user flow, wireframing, dan
+    prototyping menggunakan Figma untuk menciptakan pengalaman pengguna yang
+    intuitif dan efisien. Sebagai Graphic Designer, saya terbiasa mengerjakan
+    desain logo, visual branding, serta elemen grafis yang konsisten dengan
+    identitas brand.
+  </p>
+
+  <p className="text-slate-300 leading-relaxed mb-4">
+    Sebagai Junior Web Developer, saya mampu mengimplementasikan desain ke dalam
+    website yang responsif dan terstruktur menggunakan{" "}
+    <span className="text-sky-400 font-medium">HTML, CSS, JavaScript</span>, serta
+    framework modern seperti{" "}
+    <span className="text-sky-400 font-medium">Next.js</span> dan{" "}
+    <span className="text-sky-400 font-medium">Laravel</span>, dengan fokus pada
+    performa, usability, dan pengalaman pengguna.
+  </p>
+
+  <p className="text-slate-400 leading-relaxed">
+    Saya percaya bahwa produk digital yang baik bukan hanya terlihat menarik,
+    tetapi juga mampu menyampaikan pesan, membangun kepercayaan, dan memberikan
+    dampak nyata melalui kolaborasi antara desain dan teknologi.
+  </p>
+</section>
+
+
+ {/* TECH STACK */}
+<section className="max-w-5xl mx-auto mt-32">
+  <h2 className="text-3xl font-semibold mb-10">Tech Stack</h2>
+
+  <div className="grid md:grid-cols-3 gap-8">
+    {/* Frontend */}
+    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+      <h3 className="text-xl font-semibold mb-6 text-sky-400">Frontend</h3>
+
+      {[
+        { name: "HTML", level: "Advanced", value: "90%" },
+        { name: "CSS", level: "Advanced", value: "88%" },
+        { name: "JavaScript", level: "Advanced", value: "85%" },
+        { name: "React", level: "Basic", value: "45%" },
+        { name: "Next.js", level: "Basic", value: "40%" },
+        { name: "Tailwind CSS", level: "Basic", value: "50%" },
+      ].map((skill, i) => (
+        <div key={i} className="mb-4">
+          <div className="flex justify-between text-sm mb-1">
+            <span className="text-slate-300">{skill.name}</span>
+            <span className="text-slate-500">{skill.level}</span>
+          </div>
+          <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-sky-500 to-indigo-500"
+              style={{ width: skill.value }}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {/* UI/UX */}
+    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+      <h3 className="text-xl font-semibold mb-6 text-indigo-400">UI/UX & Design</h3>
+
+      {[
+        { name: "Figma", value: "90%" },
+        { name: "Wireframing", value: "85%" },
+        { name: "Prototyping", value: "88%" },
+        { name: "User Flow", value: "80%" },
+        { name: "Design System", value: "65%" },
+      ].map((skill, i) => (
+        <div key={i} className="mb-4">
+          <div className="flex justify-between text-sm mb-1">
+            <span className="text-slate-300">{skill.name}</span>
+            <span className="text-slate-500">Skill</span>
+          </div>
+          <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500"
+              style={{ width: skill.value }}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {/* Tools */}
+    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+      <h3 className="text-xl font-semibold mb-6 text-purple-400">Tools & Others</h3>
+
+      {[
+        { name: "Git & GitHub", value: "45%" },
+        { name: "Responsive Design", value: "75%" },
+        { name: "Component-Based UI", value: "70%" },
+        { name: "Web Performance (Basic)", value: "40%" },
+      ].map((skill, i) => (
+        <div key={i} className="mb-4">
+          <div className="flex justify-between text-sm mb-1">
+            <span className="text-slate-300">{skill.name}</span>
+            <span className="text-slate-500">Basic</span>
+          </div>
+          <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-purple-500 to-pink-500"
+              style={{ width: skill.value }}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+
 
       {/* PROJECTS */}
       <section className="max-w-5xl mx-auto mt-32">
@@ -259,7 +362,7 @@ export default function Portfolio() {
         </p>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {["logo-intan.png", "logo-elecon.png", "logo-vicit.png", "logo-jojanjejen.png", "logo-novacreative.png"].map(
+          {["logo-intan.png", "logo-elecon.png", "logo-vicit.png", "logo-jojanjejen.png", "logo-novacreative.png", "logo-panggilaja.png"].map(
             (logo, i) => (
               <motion.div
                 key={i}
