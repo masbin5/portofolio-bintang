@@ -362,7 +362,7 @@ export default function Portfolio() {
         </p>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {["logo-intan.png", "logo-elecon.png", "logo-vicit.png", "logo-jojanjejen.png", "logo-novacreative.png", "logo-panggilaja.png"].map(
+          {["logo-intan.png", "logo-elecon.png", "logo-vicit.png", "logo-jojanjejen.png", "logo-novacreative.png", "logo-panggilaja.png", "logo-herardo.png", "logo-echorift.png"].map(
             (logo, i) => (
               <motion.div
                 key={i}
