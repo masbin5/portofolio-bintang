@@ -220,44 +220,28 @@ export default function Portfolio() {
 
 
  {/* TECH STACK */}
-<section className="relative max-w-6xl mx-auto mt-32 px-6 overflow-hidden">
-
-  {/* Background Glow */}
-  <div className="absolute inset-0 -z-10">
-    <div className="absolute top-0 left-1/4 w-72 h-72 bg-sky-500/10 blur-3xl rounded-full" />
-    <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-purple-500/10 blur-3xl rounded-full" />
-  </div>
+<section className="relative max-w-6xl mx-auto mt-32 px-6">
 
   {/* Title */}
-  <div className="text-center mb-12">
-    <h2 className="text-4xl font-bold tracking-tight">
-      Tech Stack
-    </h2>
+  <div className="text-center mb-16">
+    <h2 className="text-4xl font-bold">Tech Stack</h2>
     <p className="text-slate-400 mt-3">
       Technologies I use to build modern web applications
     </p>
   </div>
 
-  {/* Grid */}
-  <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-    
-    {/* Card Example */}
-    <div className="bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-2xl p-6 hover:scale-105 transition duration-300">
-      <h3 className="text-lg font-semibold mb-2">Frontend</h3>
-      <p className="text-slate-400 text-sm">
-        HTML, CSS, JavaScript, React, Next.js, Tailwind
-      </p>
-    </div>
-
-    <div className="bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-2xl p-6 hover:scale-105 transition duration-300">
-      <h3 className="text-lg font-semibold mb-2">Backend</h3>
-      <p className="text-slate-400 text-sm">
-        Node.js, Express, REST API
-      </p>
-    </div>
-
+  {/* Frontend */}
+  <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800 rounded-3xl p-10 mb-10">
+    {/* isi progress frontend lo */}
   </div>
+
+  {/* Backend */}
+  <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800 rounded-3xl p-10">
+    {/* isi progress backend lo */}
+  </div>
+
 </section>
+
 
     {/* Frontend */}
 <motion.div
