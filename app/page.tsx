@@ -219,27 +219,53 @@ export default function Portfolio() {
 </section>
 
 
- {/* TECH STACK */}
-<section className="relative max-w-6xl mx-auto mt-32 px-6">
+{/* TECH STACK */}
+<section className="relative max-w-6xl mx-auto mt-32 px-6 overflow-hidden">
 
-  {/* Title */}
+  {/* Glow Background */}
+  <div className="absolute inset-0 -z-10">
+    <div className="absolute top-0 left-1/3 w-80 h-80 bg-sky-500/10 blur-3xl rounded-full" />
+    <div className="absolute bottom-0 right-1/3 w-80 h-80 bg-purple-500/10 blur-3xl rounded-full" />
+  </div>
+
+  {/* Heading */}
   <div className="text-center mb-16">
-    <h2 className="text-4xl font-bold">Tech Stack</h2>
+    <h2 className="text-4xl font-bold tracking-tight">Tech Stack</h2>
     <p className="text-slate-400 mt-3">
       Technologies I use to build modern web applications
     </p>
   </div>
 
-  {/* Frontend */}
-  <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800 rounded-3xl p-10 mb-10">
-    {/* isi progress frontend lo */}
-  </div>
+  {/* Skills Card */}
+  <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-800 rounded-3xl p-10 space-y-8">
 
-  {/* Backend */}
-  <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800 rounded-3xl p-10">
-    {/* isi progress backend lo */}
-  </div>
+    {[
+      { name: "HTML", level: "Advanced", value: "90%" },
+      { name: "CSS", level: "Advanced", value: "88%" },
+      { name: "JavaScript", level: "Advanced", value: "85%" },
+      { name: "React", level: "Basic", value: "45%" },
+      { name: "Next.js", level: "Basic", value: "40%" },
+      { name: "Tailwind CSS", level: "Basic", value: "50%" },
+      { name: "Node.js", level: "Basic", value: "50%" },
+      { name: "Laravel", level: "Basic", value: "55%" },
+      { name: "MySQL", level: "Basic", value: "50%" },
+    ].map((skill, i) => (
+      <div key={i}>
+        <div className="flex justify-between text-sm mb-2">
+          <span className="text-slate-300">{skill.name}</span>
+          <span className="text-slate-500">{skill.level}</span>
+        </div>
 
+        <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-sky-500 via-indigo-500 to-purple-500 transition-all duration-700"
+            style={{ width: skill.value }}
+          />
+        </div>
+      </div>
+    ))}
+
+  </div>
 </section>
 
 
