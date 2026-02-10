@@ -220,337 +220,112 @@ export default function Portfolio() {
 
 
 {/* TECH STACK */}
-<section className="relative max-w-6xl mx-auto mt-32 px-6 overflow-hidden">
-
-  {/* Glow Background */}
+<section className="relative max-w-6xl mx-auto mt-32 overflow-hidden">
+  {/* Background Glow */}
   <div className="absolute inset-0 -z-10">
-    <div className="absolute top-0 left-1/3 w-80 h-80 bg-sky-500/10 blur-3xl rounded-full" />
-    <div className="absolute bottom-0 right-1/3 w-80 h-80 bg-purple-500/10 blur-3xl rounded-full" />
+    <div className="absolute top-0 left-1/4 w-72 h-72 bg-sky-500/10 blur-3xl rounded-full" />
+    <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-purple-500/10 blur-3xl rounded-full" />
   </div>
 
-  {/* Heading */}
-  <div className="text-center mb-16">
-    <h2 className="text-4xl font-bold tracking-tight">Tech Stack</h2>
-    <p className="text-slate-400 mt-3">
-      Technologies I use to build modern web applications
-    </p>
-  </div>
+  <h2 className="text-3xl font-semibold mb-10 text-center">
+    Tech Stack
+  </h2>
 
-  {/* Skills Card */}
-  <div className="bg-slate-900/50 backdrop-blur-xl border border-slate-800 rounded-3xl p-10 space-y-8">
+  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-    {[
-      { name: "HTML", level: "Advanced", value: "90%" },
-      { name: "CSS", level: "Advanced", value: "88%" },
-      { name: "JavaScript", level: "Advanced", value: "85%" },
-      { name: "React", level: "Basic", value: "45%" },
-      { name: "Next.js", level: "Basic", value: "40%" },
-      { name: "Tailwind CSS", level: "Basic", value: "50%" },
-      { name: "Node.js", level: "Basic", value: "50%" },
-      { name: "Laravel", level: "Basic", value: "55%" },
-      { name: "MySQL", level: "Basic", value: "50%" },
-    ].map((skill, i) => (
-      <div key={i}>
-        <div className="flex justify-between text-sm mb-2">
-          <span className="text-slate-300">{skill.name}</span>
-          <span className="text-slate-500">{skill.level}</span>
+    {/* Frontend */}
+    <div className="group bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-6
+      transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02]
+      hover:border-sky-500/50 hover:shadow-[0_0_40px_rgba(56,189,248,0.25)]">
+
+      <h3 className="text-xl font-semibold mb-6 text-sky-400">Frontend</h3>
+
+      {[
+        { name: "HTML", value: "95%" },
+        { name: "CSS / Tailwind", value: "90%" },
+        { name: "JavaScript", value: "85%" },
+        { name: "React / Next.js", value: "75%" },
+      ].map((skill, i) => (
+        <div key={i} className="mb-4">
+          <div className="flex justify-between text-sm mb-1">
+            <span className="text-slate-300">{skill.name}</span>
+            <span className="text-slate-500">{skill.value}</span>
+          </div>
+
+          <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-sky-500 to-cyan-400
+              transition-all duration-500 group-hover:brightness-125"
+              style={{ width: skill.value }}
+            />
+          </div>
         </div>
+      ))}
+    </div>
 
-        <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
-          <div
-            className="h-full rounded-full bg-gradient-to-r from-sky-500 via-indigo-500 to-purple-500 transition-all duration-700"
-            style={{ width: skill.value }}
-          />
+    {/* UI/UX */}
+    <div className="group bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-6
+      transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02]
+      hover:border-indigo-500/50 hover:shadow-[0_0_40px_rgba(99,102,241,0.25)]">
+
+      <h3 className="text-xl font-semibold mb-6 text-indigo-400">UI/UX & Design</h3>
+
+      {[
+        { name: "Figma", value: "90%" },
+        { name: "Wireframing", value: "85%" },
+        { name: "Prototyping", value: "88%" },
+        { name: "User Flow", value: "80%" },
+        { name: "Design System", value: "65%" },
+      ].map((skill, i) => (
+        <div key={i} className="mb-4">
+          <div className="flex justify-between text-sm mb-1">
+            <span className="text-slate-300">{skill.name}</span>
+            <span className="text-slate-500">{skill.value}</span>
+          </div>
+
+          <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500
+              transition-all duration-500 group-hover:brightness-125"
+              style={{ width: skill.value }}
+            />
+          </div>
         </div>
-      </div>
-    ))}
+      ))}
+    </div>
+
+    {/* Backend */}
+    <div className="group bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-6
+      transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02]
+      hover:border-emerald-500/50 hover:shadow-[0_0_40px_rgba(16,185,129,0.25)]">
+
+      <h3 className="text-xl font-semibold mb-6 text-emerald-400">Backend</h3>
+
+      {[
+        { name: "Node.js (Basic)", value: "60%" },
+        { name: "Express.js", value: "55%" },
+        { name: "REST API", value: "65%" },
+        { name: "MongoDB / MySQL", value: "60%" },
+      ].map((skill, i) => (
+        <div key={i} className="mb-4">
+          <div className="flex justify-between text-sm mb-1">
+            <span className="text-slate-300">{skill.name}</span>
+            <span className="text-slate-500">{skill.value}</span>
+          </div>
+
+          <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-green-400
+              transition-all duration-500 group-hover:brightness-125"
+              style={{ width: skill.value }}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
 
   </div>
 </section>
-
-
-    {/* Frontend */}
-<motion.div
-  whileHover={{ y: -10, scale: 1.02 }}
-  transition={{ type: "spring", stiffness: 200 }}
-  className="relative bg-slate-900/80 backdrop-blur-xl
-             border border-slate-800 rounded-2xl p-6
-             hover:border-sky-500/40
-             hover:shadow-[0_0_40px_rgba(56,189,248,0.15)]
-             transition-all duration-500 overflow-hidden"
->
-  {/* Subtle galaxy particles */}
-  <div className="absolute inset-0 pointer-events-none">
-    {[...Array(6)].map((_, i) => (
-      <motion.span
-        key={i}
-        className="absolute w-[2px] h-[2px] bg-white/60 rounded-full"
-        style={{
-          top: `${Math.random() * 100}%`,
-          left: `${Math.random() * 100}%`,
-        }}
-        animate={{ opacity: [0.3, 1, 0.3] }}
-        transition={{
-          duration: 4 + Math.random() * 3,
-          repeat: Infinity,
-        }}
-      />
-    ))}
-  </div>
-
-  <h3 className="text-xl font-semibold mb-6 text-sky-400 relative z-10">
-    Frontend
-  </h3>
-
-  {[
-    { name: "HTML", level: "Advanced", value: "90%" },
-    { name: "CSS", level: "Advanced", value: "88%" },
-    { name: "JavaScript", level: "Advanced", value: "85%" },
-    { name: "React", level: "Basic", value: "45%" },
-    { name: "Next.js", level: "Basic", value: "40%" },
-    { name: "Tailwind CSS", level: "Basic", value: "50%" },
-  ].map((skill, i) => (
-    <motion.div
-      key={i}
-      whileHover={{ scale: 1.05, x: 6 }}
-      transition={{ type: "spring", stiffness: 300 }}
-      className="mb-4 relative z-10"
-    >
-      <div className="flex justify-between text-sm mb-1">
-        <span className="text-slate-300">{skill.name}</span>
-        <span className="text-slate-500">{skill.level}</span>
-      </div>
-
-      <div className="h-2 rounded-full bg-slate-800 overflow-hidden relative">
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: skill.value }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          viewport={{ once: true }}
-          className="relative h-full rounded-full 
-                     bg-gradient-to-r from-sky-500 via-indigo-500 to-purple-500"
-        >
-          {/* Shimmer */}
-          <div className="absolute inset-0 bg-gradient-to-r
-                          from-transparent via-white/30 to-transparent
-                          translate-x-[-100%]
-                          animate-[shimmer_2.5s_infinite]" />
-        </motion.div>
-      </div>
-    </motion.div>
-  ))}
-</motion.div>
-
-  {/* Backend */}
-<motion.div
-  whileHover={{ y: -10, scale: 1.02 }}
-  transition={{ type: "spring", stiffness: 200 }}
-  className="relative bg-slate-900/80 backdrop-blur-xl
-             border border-slate-800 rounded-2xl p-6
-             hover:border-emerald-500/40
-             hover:shadow-[0_0_40px_rgba(16,185,129,0.15)]
-             transition-all duration-500 overflow-hidden"
->
-  {/* Galaxy particles */}
-  <div className="absolute inset-0 pointer-events-none">
-    {[...Array(6)].map((_, i) => (
-      <motion.span
-        key={i}
-        className="absolute w-[2px] h-[2px] bg-white/60 rounded-full"
-        style={{
-          top: `${Math.random() * 100}%`,
-          left: `${Math.random() * 100}%`,
-        }}
-        animate={{ opacity: [0.3, 1, 0.3] }}
-        transition={{
-          duration: 4 + Math.random() * 3,
-          repeat: Infinity,
-        }}
-      />
-    ))}
-  </div>
-
-  <h3 className="text-xl font-semibold mb-6 text-emerald-400 relative z-10">
-    Backend
-  </h3>
-
-  {[
-    { name: "Laravel", level: "Basic", value: "50%" },
-    { name: "Node.js", level: "Basic", value: "45%" },
-    { name: "MySQL", level: "Basic", value: "55%" },
-    { name: "REST API", level: "Basic", value: "50%" },
-  ].map((skill, i) => (
-    <motion.div
-      key={i}
-      whileHover={{ scale: 1.05, x: 6 }}
-      transition={{ type: "spring", stiffness: 300 }}
-      className="mb-4 relative z-10"
-    >
-      <div className="flex justify-between text-sm mb-1">
-        <span className="text-slate-300">{skill.name}</span>
-        <span className="text-slate-500">{skill.level}</span>
-      </div>
-
-      <div className="h-2 rounded-full bg-slate-800 overflow-hidden relative">
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: skill.value }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          viewport={{ once: true }}
-          className="relative h-full rounded-full
-                     bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500"
-        >
-          {/* Shimmer */}
-          <div className="absolute inset-0 bg-gradient-to-r
-                          from-transparent via-white/30 to-transparent
-                          translate-x-[-100%]
-                          animate-[shimmer_2.5s_infinite]" />
-        </motion.div>
-      </div>
-    </motion.div>
-  ))}
-</motion.div>
-
-
-    {/* UI/UX */}
-<motion.div
-  whileHover={{ y: -10, scale: 1.02 }}
-  transition={{ type: "spring", stiffness: 200 }}
-  className="relative bg-slate-900/80 backdrop-blur-xl
-             border border-slate-800 rounded-2xl p-6
-             hover:border-indigo-500/40
-             hover:shadow-[0_0_40px_rgba(99,102,241,0.15)]
-             transition-all duration-500 overflow-hidden"
->
-  {/* Galaxy particles */}
-  <div className="absolute inset-0 pointer-events-none">
-    {[...Array(6)].map((_, i) => (
-      <motion.span
-        key={i}
-        className="absolute w-[2px] h-[2px] bg-white/60 rounded-full"
-        style={{
-          top: `${Math.random() * 100}%`,
-          left: `${Math.random() * 100}%`,
-        }}
-        animate={{ opacity: [0.3, 1, 0.3] }}
-        transition={{
-          duration: 4 + Math.random() * 3,
-          repeat: Infinity,
-        }}
-      />
-    ))}
-  </div>
-
-  <h3 className="text-xl font-semibold mb-6 text-indigo-400 relative z-10">
-    UI/UX & Design
-  </h3>
-
-  {[
-    { name: "Figma", value: "90%" },
-    { name: "Wireframing", value: "85%" },
-    { name: "Prototyping", value: "88%" },
-    { name: "User Flow", value: "80%" },
-    { name: "Design System", value: "65%" },
-  ].map((skill, i) => (
-    <motion.div
-      key={i}
-      whileHover={{ scale: 1.05, x: 6 }}
-      transition={{ type: "spring", stiffness: 300 }}
-      className="mb-4 relative z-10"
-    >
-      <div className="flex justify-between text-sm mb-1">
-        <span className="text-slate-300">{skill.name}</span>
-        <span className="text-slate-500">Skill</span>
-      </div>
-
-      <div className="h-2 rounded-full bg-slate-800 overflow-hidden relative">
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: skill.value }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          viewport={{ once: true }}
-          className="relative h-full rounded-full
-                     bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r
-                          from-transparent via-white/30 to-transparent
-                          translate-x-[-100%]
-                          animate-[shimmer_2.5s_infinite]" />
-        </motion.div>
-      </div>
-    </motion.div>
-  ))}
-</motion.div>
-
-
-   {/* Tools */}
-<motion.div
-  whileHover={{ y: -10, scale: 1.02 }}
-  transition={{ type: "spring", stiffness: 200 }}
-  className="relative bg-slate-900/80 backdrop-blur-xl
-             border border-slate-800 rounded-2xl p-6
-             hover:border-pink-500/40
-             hover:shadow-[0_0_40px_rgba(236,72,153,0.15)]
-             transition-all duration-500 overflow-hidden"
->
-  {/* Galaxy particles */}
-  <div className="absolute inset-0 pointer-events-none">
-    {[...Array(6)].map((_, i) => (
-      <motion.span
-        key={i}
-        className="absolute w-[2px] h-[2px] bg-white/60 rounded-full"
-        style={{
-          top: `${Math.random() * 100}%`,
-          left: `${Math.random() * 100}%`,
-        }}
-        animate={{ opacity: [0.3, 1, 0.3] }}
-        transition={{
-          duration: 4 + Math.random() * 3,
-          repeat: Infinity,
-        }}
-      />
-    ))}
-  </div>
-
-  <h3 className="text-xl font-semibold mb-6 text-purple-400 relative z-10">
-    Tools & Others
-  </h3>
-
-  {[
-    { name: "Git & GitHub", value: "45%" },
-    { name: "Responsive Design", value: "75%" },
-    { name: "Component-Based UI", value: "70%" },
-    { name: "Web Performance (Basic)", value: "40%" },
-  ].map((skill, i) => (
-    <motion.div
-      key={i}
-      whileHover={{ scale: 1.05, x: 6 }}
-      transition={{ type: "spring", stiffness: 300 }}
-      className="mb-4 relative z-10"
-    >
-      <div className="flex justify-between text-sm mb-1">
-        <span className="text-slate-300">{skill.name}</span>
-        <span className="text-slate-500">Basic</span>
-      </div>
-
-      <div className="h-2 rounded-full bg-slate-800 overflow-hidden relative">
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: skill.value }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          viewport={{ once: true }}
-          className="relative h-full rounded-full
-                     bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r
-                          from-transparent via-white/30 to-transparent
-                          translate-x-[-100%]
-                          animate-[shimmer_2.5s_infinite]" />
-        </motion.div>
-      </div>
-    </motion.div>
-  ))}
-</motion.div>
 
 
 
