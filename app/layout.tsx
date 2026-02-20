@@ -14,15 +14,15 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Bintang Akbar Alim – UI/UX & Graphic Designer",
+    default: "Bintang Akbar Alim – Web Junior Developer, UI/UX & Graphic Designer",
     template: "%s | Bintang Akbar Alim",
   },
   description:
-    "Portfolio Bintang Akbar Alim, UI/UX & Graphic Designer dengan pengalaman 1+ tahun dalam merancang aplikasi, website, dan visual branding yang fungsional dan elegan.",
+    "Portfolio Bintang Akbar Alim, Web Junior Developer, UI/UX & Graphic Designer dengan pengalaman 2+ tahun dalam merancang aplikasi, website, dan visual branding yang fungsional dan elegan.",
   keywords: [
-    "UI UX Designer",
+    "Web Junior Developer",
     "Graphic Designer",
-    "Product Designer",
+    "UI/UX Designer",
     "Figma Designer",
     "Web Designer",
     "Portfolio UI UX",
@@ -30,9 +30,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Bintang Akbar Alim" }],
   creator: "Bintang Akbar Alim",
   openGraph: {
-    title: "Bintang Akbar Alim – UI/UX & Graphic Designer",
+    title: "Bintang Akbar Alim – Web Junior Developer, UI/UX & Graphic Designer",
     description:
-      "UI/UX & Graphic Designer dengan fokus pada desain aplikasi, website, dan visual branding modern.",
+      "Web Junior Developer, UI/UX & Graphic Designer dengan fokus pada desain aplikasi, website, dan visual branding modern.",
     url: "https://YOUR-VERCEL-URL.vercel.app",
     siteName: "Bintang Akbar Alim Portfolio",
     images: [
