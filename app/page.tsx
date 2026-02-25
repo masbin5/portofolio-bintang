@@ -487,9 +487,9 @@ export default function Portfolio() {
                   style={{ background: "radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%)" }} />
                 <img src={`/logos/${logo}`} alt={logo}
                   className="h-12 w-auto object-contain relative z-10 transition-all duration-500 group-hover:scale-110"
-                  style={{ filter: "grayscale(100%) brightness(0.45) sepia(1) hue-rotate(180deg) saturate(3)", opacity: 0.65 }}
-                  onMouseOver={e => { const el = e.currentTarget as HTMLImageElement; el.style.filter = "grayscale(0%) brightness(1) sepia(0.4) hue-rotate(190deg) saturate(2)"; el.style.opacity = "1"; }}
-                  onMouseOut={e => { const el = e.currentTarget as HTMLImageElement; el.style.filter = "grayscale(100%) brightness(0.45) sepia(1) hue-rotate(180deg) saturate(3)"; el.style.opacity = "0.65"; }} />
+                  style={{ filter: "grayscale(100%) brightness(0.5)", opacity: 0.55 }}
+                  onMouseOver={e => { const el = e.currentTarget as HTMLImageElement; el.style.filter = "grayscale(0%) brightness(1)"; el.style.opacity = "1"; }}
+                  onMouseOut={e => { const el = e.currentTarget as HTMLImageElement; el.style.filter = "grayscale(100%) brightness(0.5)"; el.style.opacity = "0.55"; }} />
               </motion.div>
             ))}
           </div>
