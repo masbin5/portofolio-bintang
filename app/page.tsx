@@ -311,7 +311,7 @@ export default function Portfolio() {
               className="flex items-center gap-3 mb-10"
             >
               <div className="w-8 h-[1px]" style={{ background: "rgba(245,158,11,0.6)" }} />
-              <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">Portfolio 2025</span>
+              <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">Portfolio 2026</span>
             </motion.div>
 
             <div className="flex flex-col md:flex-row gap-12 items-start md:items-center">
