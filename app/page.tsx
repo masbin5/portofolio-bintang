@@ -49,7 +49,7 @@ export default function Portfolio() {
       accent: "#f59e0b",
     },
     {
-      title: "Web Project – Company Profile (Unfinished)",
+      title: "Web Project – Company Profile",
       desc: "Company profile website designed with a clean and structured layout, featuring a modern hero section, organized content hierarchy, responsive design, and scalable components.",
       duration: "3 Minggu",
       tags: ["Next.js", "Tailwind", "Responsive"],
@@ -57,6 +57,24 @@ export default function Portfolio() {
       image: "/projects/compro-web.png",
       accent: "#34d399",
     },
+    {
+    title: "Website Toko Roti",
+    desc: "Website toko roti dengan fitur katalog produk, pemesanan online, dan tampilan modern yang user-friendly.",
+    duration: "1 Minggu",
+    tags: ["HTML", "CSS", "JS"],
+    link: "https://toko-roti-lafarine.vercel.app/",
+    image: "/projects/tokoroti.jpg",
+    accent: "#f59e0b",
+    },
+    {
+    title: "Website Konsultasi Kesehatan",
+    desc: "Platform konsultasi kesehatan online yang memungkinkan pengguna untuk berkonsultasi dengan tenaga medis, dilengkapi fitur booking, live chat, dan tampilan responsif yang mudah digunakan.",
+    duration: "1 Minggu",
+    tags: ["HTML", "CSS", "JS"],
+    link: "https://sehatku-web.vercel.app/",
+    image: "/projects/kesehatan.png",
+    accent: "#38bdf8",
+}
   ];
 
   const uiuxProjects = [
