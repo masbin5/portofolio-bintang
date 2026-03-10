@@ -879,6 +879,20 @@ export default function Portfolio() {
                       tags: ["Poster", "Sports", "Infographic"],
                       accent: "#a3e635",
                     },
+                    {
+                      image: "/graphic/FRESH_DRINK.png",
+                      title: "New Variant Ice Tea",
+                      desc: "Promotional poster for 3 new ice tea variants — Matcha Mint, Berry, and Grape — with bold typographic background.",
+                      tags: ["Poster", "Drink", "Promotional"],
+                    accent: "#84cc16",
+                    },
+                    {
+                      image: "/graphic/FOTOIN_DULU.png",
+                      title: "PD Aja Dulu Baru Foto",
+                      desc: "Collage-style photography poster with newspaper texture background and film strip photo layout.",
+                      tags: ["Poster", "Photography", "Collage"],
+                      accent: "#3b82f6",
+                    },
                   ].map((item, i) => (
                     <motion.div
                       key={i}
