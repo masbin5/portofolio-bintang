@@ -893,6 +893,20 @@ export default function Portfolio() {
                       tags: ["Poster", "Photography", "Collage"],
                       accent: "#3b82f6",
                     },
+                    {
+                      image: "/graphic/HUMAN_CORE.png",
+                      title: "HumanCore HCMS – All in One Solution",
+                      desc: "Promotional flyer for HumanCore HCMS showcasing 4 key HR features: employee data management, AI recruitment, payroll automation, and AI analytics.",
+                      tags: ["Flyer", "B2B", "HR Tech"],
+                      accent: "#f97316",
+                    },
+                    {
+                      image: "/graphic/WAICAST_AI.png",
+                      title: "Waicast – AI Chat Automation",
+                      desc: "Instagram/LinkedIn promotional poster for Waicast AI featuring chat automation, auto follow-up, smart broadcast, and multi-platform integration.",
+                      tags: ["Poster", "Social Media", "AI SaaS"],
+                      accent: "#10b981",
+                    },
                   ].map((item, i) => (
                     <motion.div
                       key={i}
