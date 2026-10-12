@@ -907,6 +907,34 @@ export default function Portfolio() {
                       tags: ["Poster", "Social Media", "AI SaaS"],
                       accent: "#10b981",
                     },
+                    {
+                      image: "/graphic/Flyer 3 Learnpath.png",
+                      title: "LearnPath – AI Learning Platform",
+                      desc: "Social media promotional poster for LearnPath.id showcasing AI-powered learning recommendations, skill gap analysis, OJT programs, supervisor reviews, and competency tracking.",
+                      tags: ["Poster", "Social Media", "EdTech"],
+                      accent: "#06b6d4",
+                    },
+                    {
+                      image: "/graphic/Flyer 13 karipia.png",
+                      title: "Karivia – Job Interview Tips",
+                      desc: "Educational social media poster for Karivia featuring five smart questions candidates can ask recruiters during job interviews to demonstrate preparation and interest.",
+                      tags: ["Poster", "Social Media", "Career Tips"],
+                      accent: "#003366",
+                    },
+                    {
+                      image: "/graphic/Flyer 12 karipia.png",
+                      title: "Karivia – Fresh Graduate Career Tips",
+                      desc: "Informative social media poster for Karivia highlighting practical job application strategies for entry-level candidates, including portfolio building, transferable skills, and cover letter writing.",
+                      tags: ["Poster", "Social Media", "Career Education"],
+                      accent: "#0284c7",
+                    },
+                    {
+                      image: "/graphic/Flyer 9 karipia.png",
+                      title: "Karivia – Career Success Story",
+                      desc: "Social media promotional poster for Karivia featuring a career success testimonial, AI interview simulator promotion, and motivational messaging for fresh graduates.",
+                      tags: ["Poster", "Social Media", "Career Platform"],
+                      accent: "#38bdf8",
+                    },
                   ].map((item, i) => (
                     <motion.div
                       key={i}
