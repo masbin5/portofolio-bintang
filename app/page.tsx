@@ -74,7 +74,16 @@ export default function Portfolio() {
       link: "https://sehatku-web.vercel.app/",
       image: "/projects/kesehatan.png",
       accent: "#38bdf8",
-    }
+    },
+    {
+      title: "BYD Harmoni Palmerah – Automotive Website",
+      desc: "Responsive automotive sales website for BYD Harmoni Palmerah, featuring BYD and DENZA vehicle catalogs, promotional offers, credit simulation, test drive information, and direct WhatsApp sales consultation.",
+      duration: "Project Website",
+      tags: ["Next.js", "Tailwind", "Responsive", "Automotive"],
+      link: "https://www.rarabydpalmerah.com/",
+      image: "/projects/byd-harmoni-palmerah.png",
+      accent: "#2563eb",
+    },
   ];
 
   const uiuxProjects = [
@@ -133,15 +142,6 @@ export default function Portfolio() {
       tags: ["Website", "Internal System"],
       link: "#",
       accent: "#94a3b8",
-    },
-    {
-      title: "BYD Harmoni Palmerah – Automotive Website",
-      desc: "Responsive automotive sales website for BYD Harmoni Palmerah, featuring BYD and DENZA vehicle catalogs, promotional offers, credit simulation, test drive information, and direct WhatsApp sales consultation.",
-      duration: "Project Website",
-      tags: ["Next.js", "Tailwind", "Responsive", "Automotive"],
-      link: "https://www.rarabydpalmerah.com/",
-      image: "/projects/byd-harmoni-palmerah.png",
-      accent: "#2563eb",
     },
   ];
 
