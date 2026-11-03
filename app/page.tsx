@@ -5,15 +5,56 @@ import { motion, useScroll, useTransform, useMotionValue, useSpring, type Varian
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
+const navItems = [
+  { id: "web", label: "Web Projects", num: "03" },
+  { id: "uiux", label: "UI/UX", num: "04" },
+  { id: "graphic", label: "Graphic Design", num: "05" },
+  { id: "branding", label: "Branding", num: "06" },
+  { id: "contact", label: "Contact", num: "" },
+];
+
+const grainSvg = `<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(#n)'/></svg>`;
+const grainUrl = `url("data:image/svg+xml;utf8,${encodeURIComponent(grainSvg)}")`;
+
+const scratches = [
+  { l: "6%", h: "55%", o: 0.16, light: true },
+  { l: "11%", h: "80%", o: 0.1, light: false },
+  { l: "19%", h: "38%", o: 0.2, light: true },
+  { l: "27%", h: "70%", o: 0.12, light: false },
+  { l: "34%", h: "48%", o: 0.18, light: true },
+  { l: "41%", h: "90%", o: 0.1, light: false },
+  { l: "47%", h: "62%", o: 0.22, light: true },
+  { l: "53%", h: "42%", o: 0.12, light: false },
+  { l: "60%", h: "75%", o: 0.16, light: true },
+  { l: "66%", h: "58%", o: 0.1, light: false },
+  { l: "72%", h: "85%", o: 0.2, light: true },
+  { l: "79%", h: "46%", o: 0.12, light: false },
+  { l: "86%", h: "66%", o: 0.18, light: true },
+  { l: "93%", h: "52%", o: 0.14, light: false },
+];
 export default function Portfolio() {
   const [available, setAvailable] = useState<boolean>(true);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [activeSkill, setActiveSkill] = useState<string | null>(null);
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.15], [1, 0.92]);
   const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -60]);
-
+  const [activeSection, setActiveSection] = useState<string>("");
+    useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActiveSection(e.target.id);
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px" }
+    );
+    navItems.forEach((n) => {
+      const el = document.getElementById(n.id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const smoothX = useSpring(mouseX, { stiffness: 80, damping: 20 });
@@ -188,7 +229,10 @@ export default function Portfolio() {
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap');
 
         * { cursor: none !important; }
-
+                html { scroll-behavior: smooth; }
+        section[id] { scroll-margin-top: 4rem; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { scrollbar-width: none; }  
         .font-syne { font-family: 'Syne', sans-serif; }
         .font-mono-dm { font-family: 'DM Mono', monospace; }
 
@@ -284,7 +328,7 @@ export default function Portfolio() {
           translateY: "-50%",
           width: 500,
           height: 500,
-          background: "radial-gradient(circle, rgba(245,158,11,0.04) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(242,107,29,0.05) 0%, transparent 70%)",
         }}
       />
 
@@ -292,30 +336,54 @@ export default function Portfolio() {
         className="min-h-screen text-stone-100 px-6 py-0 relative overflow-hidden font-syne"
         style={{ background: "#0c0a09" }}
       >
-        {/* Background: warm mesh */}
-        <div className="fixed inset-0 pointer-events-none z-0">
-          <div style={{ position: "absolute", top: "-5%", left: "-10%", width: 700, height: 700, background: "radial-gradient(circle, rgba(245,158,11,0.06) 0%, transparent 65%)", borderRadius: "50%", filter: "blur(40px)" }} />
-          <div style={{ position: "absolute", bottom: "5%", right: "-5%", width: 550, height: 550, background: "radial-gradient(circle, rgba(251,191,36,0.04) 0%, transparent 65%)", borderRadius: "50%", filter: "blur(60px)" }} />
-          <div style={{ position: "absolute", top: "45%", left: "55%", width: 400, height: 400, background: "radial-gradient(circle, rgba(196,181,253,0.04) 0%, transparent 65%)", borderRadius: "50%", filter: "blur(60px)" }} />
+        {/* Background: gradasi oranye → hitam bergaya grunge */}
+        <div className="absolute inset-x-0 top-0 h-[115vh] pointer-events-none z-0 overflow-hidden">
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to bottom, #f2661c 0%, #d9551a 12%, #a8410f 28%, #5c240a 46%, #1a0e08 64%, #0c0a09 82%)",
+            }}
+          />
+          {/* Goresan vertikal */}
+          {scratches.map((s, i) => (
+            <div
+              key={i}
+              className="absolute top-0 w-px"
+              style={{
+                left: s.l,
+                height: s.h,
+                background: s.light
+                  ? `linear-gradient(to bottom, rgba(255,214,180,${s.o}), transparent)`
+                  : `linear-gradient(to bottom, rgba(0,0,0,${s.o * 2}), transparent)`,
+              }}
+            />
+          ))}
         </div>
+
+        {/* Grain film di seluruh halaman */}
+        <div
+          className="fixed inset-0 pointer-events-none z-[40]"
+          style={{ backgroundImage: grainUrl, opacity: 0.09 }}
+        />
 
         {/* Floating geometric shapes */}
         <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
           {/* Diamond top-right */}
-          <div className="geo-1 absolute" style={{ top: "12%", right: "8%", width: 60, height: 60, border: "1px solid rgba(245,158,11,0.12)", transform: "rotate(45deg)" }} />
+          <div className="geo-1 absolute" style={{ top: "12%", right: "8%", width: 60, height: 60, border: "1px solid rgba(242,107,29,0.16)", transform: "rotate(45deg)" }} />
           {/* Circle mid-left */}
-          <div className="geo-2 absolute" style={{ top: "38%", left: "4%", width: 90, height: 90, border: "1px solid rgba(245,158,11,0.07)", borderRadius: "50%" }} />
+          <div className="geo-2 absolute" style={{ top: "38%", left: "4%", width: 90, height: 90, border: "1px solid rgba(242,107,29,0.1)", borderRadius: "50%" }} />
           {/* Small square bottom-left */}
-          <div className="geo-3 absolute" style={{ bottom: "20%", left: "10%", width: 30, height: 30, border: "1px solid rgba(251,191,36,0.15)", transform: "rotate(30deg)" }} />
+          <div className="geo-3 absolute" style={{ bottom: "20%", left: "10%", width: 30, height: 30, border: "1px solid rgba(255,143,74,0.18)", transform: "rotate(30deg)" }} />
           {/* Triangle-ish polygon */}
-          <svg className="geo-1 absolute" style={{ top: "65%", right: "6%", opacity: 0.07 }} width="80" height="80" viewBox="0 0 80 80">
-            <polygon points="40,4 76,68 4,68" fill="none" stroke="#f59e0b" strokeWidth="1" />
+          <svg className="geo-1 absolute" style={{ top: "65%", right: "6%", opacity: 0.09 }} width="80" height="80" viewBox="0 0 80 80">
+            <polygon points="40,4 76,68 4,68" fill="none" stroke="#f26b1d" strokeWidth="1" />
           </svg>
           {/* Dotted grid pattern */}
-          <svg className="absolute" style={{ top: "25%", right: "18%", opacity: 0.04 }} width="120" height="120" viewBox="0 0 120 120">
+          <svg className="absolute" style={{ top: "25%", right: "18%", opacity: 0.05 }} width="120" height="120" viewBox="0 0 120 120">
             {Array.from({ length: 5 }).map((_, r) =>
               Array.from({ length: 5 }).map((_, c) => (
-                <circle key={`${r}-${c}`} cx={c * 24 + 12} cy={r * 24 + 12} r="2" fill="#f59e0b" />
+                <circle key={`${r}-${c}`} cx={c * 24 + 12} cy={r * 24 + 12} r="2" fill="#f26b1d" />
               ))
             )}
           </svg>
@@ -323,7 +391,103 @@ export default function Portfolio() {
 
         {/* Top border accent line */}
         <div className="fixed top-0 left-0 right-0 h-[1px] z-50" style={{ background: "linear-gradient(90deg, transparent, rgba(245,158,11,0.5), transparent)" }} />
+                {/* Navigation */}
+        <div className="fixed top-4 inset-x-0 z-50 flex justify-center px-3 pointer-events-none">
+          <motion.nav
+            initial={{ opacity: 0, y: -24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="pointer-events-auto relative flex items-center max-w-full rounded-full border p-1.5 overflow-hidden"
+            style={{
+              background: "rgba(12,10,9,0.72)",
+              backdropFilter: "blur(16px)",
+              WebkitBackdropFilter: "blur(16px)",
+              borderColor: "rgba(245,158,11,0.18)",
+              boxShadow: "0 10px 40px -12px rgba(0,0,0,0.6)",
+            }}
+          >
+            {/* Monogram: klik untuk kembali ke atas */}
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className="flex items-center gap-2 pl-3 pr-3 shrink-0"
+            >
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-60" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-400" />
+              </span>
+              <span className="hidden sm:inline font-mono-dm text-[11px] tracking-[0.2em] uppercase text-stone-300">
+                B.A
+              </span>
+            </a>
 
+            <div className="w-px h-5 shrink-0" style={{ background: "rgba(245,158,11,0.18)" }} />
+
+            {/* Link section */}
+            <div className="flex items-center gap-0.5 px-1 min-w-0 overflow-x-auto no-scrollbar">
+              {navItems
+                .filter((n) => n.id !== "contact")
+                .map((n) => {
+                  const active = activeSection === n.id;
+                  return (
+                    <a
+                      key={n.id}
+                      href={`#${n.id}`}
+                      className="group relative flex items-center gap-1.5 px-3.5 py-2 rounded-full whitespace-nowrap"
+                    >
+                      {active && (
+                        <motion.span
+                          layoutId="nav-active"
+                          className="absolute inset-0 rounded-full"
+                          style={{
+                            background: "rgba(245,158,11,0.12)",
+                            border: "1px solid rgba(245,158,11,0.3)",
+                          }}
+                          transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                        />
+                      )}
+                      <span
+                        className={`relative z-10 font-mono-dm text-[10px] transition-colors duration-300 ${
+                          active ? "text-amber-400" : "text-stone-600 group-hover:text-amber-400/70"
+                        }`}
+                      >
+                        {n.num}
+                      </span>
+                      <span
+                        className={`relative z-10 font-syne font-semibold text-xs tracking-wide transition-colors duration-300 ${
+                          active ? "text-stone-50" : "text-stone-400 group-hover:text-stone-100"
+                        }`}
+                      >
+                        {n.label}
+                      </span>
+                    </a>
+                  );
+                })}
+            </div>
+
+            <div className="w-px h-5 shrink-0 mx-1" style={{ background: "rgba(245,158,11,0.18)" }} />
+
+            {/* CTA Contact */}
+            <motion.a
+              href="#contact"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              className="shrink-0 px-4 py-2 rounded-full text-xs font-syne font-semibold tracking-wide text-stone-900"
+              style={{ background: "linear-gradient(135deg, #f59e0b, #fbbf24)" }}
+            >
+              Contact
+            </motion.a>
+
+            {/* Garis progres scroll */}
+            <motion.div
+              className="absolute left-0 bottom-0 h-[2px] w-full origin-left"
+              style={{ scaleX: scrollYProgress, background: "linear-gradient(90deg, #f59e0b, #fcd34d)" }}
+            />
+          </motion.nav>
+        </div>
         {/* Thin vertical line left */}
         <div className="fixed top-0 left-[3.5rem] bottom-0 w-px z-0 hidden md:block" style={{ background: "linear-gradient(to bottom, transparent, rgba(245,158,11,0.06) 20%, rgba(245,158,11,0.06) 80%, transparent)" }} />
 
@@ -681,6 +845,7 @@ export default function Portfolio() {
 
           {/* ── WEB PROJECTS ── */}
           <motion.section
+            id="web"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
@@ -760,6 +925,7 @@ export default function Portfolio() {
 
           {/* ── UI/UX PROJECTS ── */}
           <motion.section
+            id="uiux"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
@@ -836,6 +1002,7 @@ export default function Portfolio() {
 
           {/* ── GRAPHIC DESIGN ── */}
           <motion.section
+            id="graphic"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
@@ -883,6 +1050,7 @@ export default function Portfolio() {
                     </span>
                     <span className="font-mono-dm text-xs text-stone-600">
                       {graphicPages.length} halaman
+                      
                     </span>
                   </div>
 
@@ -905,6 +1073,7 @@ export default function Portfolio() {
 
           {/* ── BRANDING ── */}
           <motion.section
+            id="branding"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
@@ -939,7 +1108,7 @@ export default function Portfolio() {
                 </motion.p>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {["logo-intan.png", "logo-elecon.png", "logo-vicit.png", "logo-jojanjejen.png", "logo-novacreative.png", "logo-panggilaja.png", "logo-herardo.png", "logo-echorift.png"].map((logo, i) => (
+                  {["logo-intan.png", "logo-elecon.png", "logo-vicit.png", "logo-jojanjejen.png", "logo-novacreative.png", "logo-panggilaja.png", "logo-herardo.png", "logo-echorift.png", "logo-huttangerang.png", "logo-duniawaralaba.png"].map((logo, i) => (
                     <motion.div
                       key={i}
                       variants={itemVariants}
@@ -949,7 +1118,11 @@ export default function Portfolio() {
                     >
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" style={{ background: "linear-gradient(135deg, rgba(245,158,11,0.05) 0%, transparent 60%)" }} />
                       <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "linear-gradient(90deg, transparent, rgba(245,158,11,0.3), transparent)" }} />
-                      <img src={`/logos/${logo}`} alt={logo} className="h-14 w-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-500 opacity-50 group-hover:opacity-100 relative z-10" />
+                      <img
+                      src={`/logos/${logo}`}
+                      alt={logo}
+                      className="absolute inset-0 w-full h-full p-6 md:p-8 object-contain grayscale group-hover:grayscale-0 transition-all duration-500 opacity-70 group-hover:opacity-100 z-10"
+                    />
                     </motion.div>
                   ))}
                 </div>
