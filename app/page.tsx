@@ -176,6 +176,10 @@ export default function Portfolio() {
     { name: "Laravel", value: 70, icon: "🔺" },
     { name: "Node.js", value: 65, icon: "⬢" },
   ];
+  const graphicPages = Array.from(
+  { length: 13 },
+  (_, i) => `/graphic/pages/page-${String(i + 1).padStart(2, "0")}.jpg`
+);
 
   return (
     <>
@@ -864,122 +868,39 @@ export default function Portfolio() {
                 <motion.p variants={itemVariants} className="text-stone-500 mb-12 font-sans text-sm leading-relaxed max-w-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                   Karya desain grafis berupa poster, flyer, dan konten visual dengan pendekatan bold, kreatif, dan eye-catching.
                 </motion.p>
+                  <motion.div
+                  variants={itemVariants}
+                  className="card-hover-border relative rounded-2xl overflow-hidden border"
+                  style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
+                >
+                  {/* Toolbar */}
+                  <div
+                    className="flex items-center justify-between px-5 py-3 border-b"
+                    style={{ borderColor: "rgba(255,255,255,0.06)" }}
+                  >
+                    <span className="font-mono-dm text-xs text-stone-500 tracking-wide">
+                      Bintang - Graphic Designer
+                    </span>
+                    <span className="font-mono-dm text-xs text-stone-600">
+                      {graphicPages.length} halaman
+                    </span>
+                  </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                  {[
-                    {
-                      image: "/graphic/IRON_MAN.png",
-                      title: "Iron Man Poster",
-                      desc: "Fan-made cinematic poster — Iron Man as Tony Stark.",
-                      tags: ["Poster", "Cinematic", "Fan Art"],
-                      accent: "#ef4444",
-                    },
-                    {
-                      image: "/graphic/CAPTAIN_AMERICA.png",
-                      title: "Captain America Poster",
-                      desc: "Fan-made cinematic poster — Captain America as Steve Rogers.",
-                      tags: ["Poster", "Cinematic", "Fan Art"],
-                      accent: "#3b82f6",
-                    },
-                    {
-                      image: "/graphic/GOAT.png",
-                      title: "The GOAT – Lionel Messi",
-                      desc: "Stats infographic poster for Lionel Messi with bold typographic layout.",
-                      tags: ["Poster", "Sports", "Infographic"],
-                      accent: "#a3e635",
-                    },
-                    {
-                      image: "/graphic/FRESH_DRINK.png",
-                      title: "New Variant Ice Tea",
-                      desc: "Promotional poster for 3 new ice tea variants — Matcha Mint, Berry, and Grape — with bold typographic background.",
-                      tags: ["Poster", "Drink", "Promotional"],
-                    accent: "#84cc16",
-                    },
-                    {
-                      image: "/graphic/FOTOIN_DULU.png",
-                      title: "PD Aja Dulu Baru Foto",
-                      desc: "Collage-style photography poster with newspaper texture background and film strip photo layout.",
-                      tags: ["Poster", "Photography", "Collage"],
-                      accent: "#3b82f6",
-                    },
-                    {
-                      image: "/graphic/HUMAN_CORE.png",
-                      title: "HumanCore HCMS – All in One Solution",
-                      desc: "Promotional flyer for HumanCore HCMS showcasing 4 key HR features: employee data management, AI recruitment, payroll automation, and AI analytics.",
-                      tags: ["Flyer", "B2B", "HR Tech"],
-                      accent: "#f97316",
-                    },
-                    {
-                      image: "/graphic/WAICAST_AI.png",
-                      title: "Waicast – AI Chat Automation",
-                      desc: "Instagram/LinkedIn promotional poster for Waicast AI featuring chat automation, auto follow-up, smart broadcast, and multi-platform integration.",
-                      tags: ["Poster", "Social Media", "AI SaaS"],
-                      accent: "#10b981",
-                    },
-                    {
-                      image: "/graphic/Flyer 3 Learnpath.png",
-                      title: "LearnPath – AI Learning Platform",
-                      desc: "Social media promotional poster for LearnPath.id showcasing AI-powered learning recommendations, skill gap analysis, OJT programs, supervisor reviews, and competency tracking.",
-                      tags: ["Poster", "Social Media", "EdTech"],
-                      accent: "#06b6d4",
-                    },
-                    {
-                      image: "/graphic/Flyer 13 karipia.png",
-                      title: "Karivia – Job Interview Tips",
-                      desc: "Educational social media poster for Karivia featuring five smart questions candidates can ask recruiters during job interviews to demonstrate preparation and interest.",
-                      tags: ["Poster", "Social Media", "Career Tips"],
-                      accent: "#003366",
-                    },
-                    {
-                      image: "/graphic/Flyer 12 karipia.png",
-                      title: "Karivia – Fresh Graduate Career Tips",
-                      desc: "Informative social media poster for Karivia highlighting practical job application strategies for entry-level candidates, including portfolio building, transferable skills, and cover letter writing.",
-                      tags: ["Poster", "Social Media", "Career Education"],
-                      accent: "#0284c7",
-                    },
-                    {
-                      image: "/graphic/Flyer 9 karipia.png",
-                      title: "Karivia – Career Success Story",
-                      desc: "Social media promotional poster for Karivia featuring a career success testimonial, AI interview simulator promotion, and motivational messaging for fresh graduates.",
-                      tags: ["Poster", "Social Media", "Career Platform"],
-                      accent: "#38bdf8",
-                    },
-                  ].map((item, i) => (
-                    <motion.div
-                      key={i}
-                      variants={itemVariants}
-                      whileHover={{ y: -8, transition: { type: "spring", stiffness: 300, damping: 20 } }}
-                      className="group card-hover-border relative rounded-2xl overflow-hidden border"
-                      style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
-                    >
-                      {/* Image */}
-                      <div className="relative w-full overflow-hidden" style={{ aspectRatio: "3/4" }}>
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="w-full h-full object-cover object-top opacity-85 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #0c0a09 0%, rgba(12,10,9,0.3) 50%, transparent 100%)" }} />
-                        {/* Accent top line on hover */}
-                        <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: `linear-gradient(90deg, transparent, ${item.accent}80, transparent)` }} />
-                      </div>
-
-                      <div className="p-5">
-                        <h3 className="font-syne font-bold text-base text-stone-100 mb-1 tracking-tight">{item.title}</h3>
-                        <p className="text-stone-500 text-xs leading-relaxed mb-4 font-sans" style={{ fontFamily: "'DM Sans', sans-serif" }}>{item.desc}</p>
-                        <div className="flex flex-wrap gap-1.5">
-                          {item.tags.map((t, idx) => (
-                            <span key={idx} className="text-xs px-2.5 py-0.5 rounded-full" style={{ color: item.accent, background: `${item.accent}12`, border: `1px solid ${item.accent}25`, fontFamily: "'DM Sans', sans-serif" }}>
-                              {t}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
+                  {/* Halaman langsung tersusun ke bawah, tanpa scroll di dalam kotak */}
+                  <div className="flex flex-col gap-3 p-3" style={{ background: "#1c1917" }}>
+                    {graphicPages.map((src, i) => (
+                      <img
+                        key={i}
+                        src={src}
+                        alt={`Portfolio Graphic Designer - halaman ${i + 1}`}
+                        loading="lazy"
+                        className="w-full h-auto block rounded-lg"
+                      />
+                    ))}
+                  </div>
+                </motion.div>
                 </div>
-              </div>
-            </div>
+                </div>
           </motion.section>
 
           {/* ── BRANDING ── */}
