@@ -8,8 +8,9 @@ import { Button } from "@/components/ui/button";
 const navItems = [
   { id: "web", label: "Web Projects", num: "03" },
   { id: "uiux", label: "UI/UX", num: "04" },
-  { id: "graphic", label: "Graphic Design", num: "05" },
-  { id: "branding", label: "Branding", num: "06" },
+  { id: "motion", label: "Motion", num: "05" },
+  { id: "graphic", label: "Graphic Design", num: "06" },
+  { id: "branding", label: "Branding", num: "07" },
   { id: "contact", label: "Contact", num: "" },
 ];
 
@@ -32,6 +33,58 @@ const scratches = [
   { l: "86%", h: "66%", o: 0.18, light: true },
   { l: "93%", h: "52%", o: 0.14, light: false },
 ];
+function MotionVideo({
+  src,
+  title,
+  tag,
+  aspect,
+}: {
+  src: string;
+  title: string;
+  tag: string;
+  aspect: string;
+}) {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    v.muted = true;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      },
+      { threshold: 0.35 }
+    );
+    io.observe(v);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div
+      className="card-hover-border relative rounded-2xl overflow-hidden border"
+      style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
+    >
+      <div style={{ aspectRatio: aspect, background: "#000" }}>
+        <video
+          ref={ref}
+          src={encodeURI(src)}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          className="w-full h-full object-contain block"
+        />
+      </div>
+      <div className="p-5 flex items-center justify-between gap-3">
+        <h3 className="font-syne font-bold text-base text-stone-100 tracking-tight">{title}</h3>
+        <span className="font-mono-dm text-[10px] tracking-wide text-amber-400/80 shrink-0">{tag}</span>
+      </div>
+    </div>
+  );
+}
 export default function Portfolio() {
   const [available, setAvailable] = useState<boolean>(true);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -185,7 +238,11 @@ export default function Portfolio() {
       accent: "#94a3b8",
     },
   ];
-
+    const motionVideos = [
+    { src: "/motion/invly.id - mini task - Bintang.mp4", title: "invly.id – Mini Task", tag: "Motion Graphic", aspect: "9/16" },
+    { src: "/motion/Digium Vid Tiktok.mp4", title: "Digium – Video TikTok", tag: "TikTok", aspect: "9/16" },
+    { src: "/motion/Nusantara Sweet - Motion Graphc.mp4", title: "Nusantara Sweet", tag: "Motion Graphic", aspect: "9/16" },
+  ];
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
@@ -999,7 +1056,52 @@ export default function Portfolio() {
               </div>
             </div>
           </motion.section>
+                    {/* ── MOTION GRAPHIC ── */}
+          <motion.section
+            id="motion"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={containerVariants}
+            className="max-w-5xl mx-auto mt-40"
+          >
+            <div className="flex flex-col md:flex-row gap-16">
+              <div className="flex-shrink-0 md:w-16">
+                <motion.div variants={itemVariants} className="sticky top-24">
+                  <span className="font-mono-dm text-xs text-stone-700 block mb-2">06</span>
+                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(242,107,29,0.3), transparent)" }} />
+                </motion.div>
+              </div>
 
+              <div className="flex-1">
+                <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-6">
+                  <div className="w-4 h-[1px]" style={{ background: "rgba(242,107,29,0.6)" }} />
+                  <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">Motion Graphic</span>
+                </motion.div>
+
+                <motion.h2
+                  variants={itemVariants}
+                  className="font-syne font-bold text-4xl md:text-5xl mb-4 leading-tight"
+                  style={{ letterSpacing: "-0.02em", color: "#fafaf9" }}
+                >
+                  Motion Graphic<br />
+                  <span className="text-stone-500 font-normal">bringing ideas to life.</span>
+                </motion.h2>
+
+                <motion.p variants={itemVariants} className="text-stone-500 mb-12 font-sans text-sm leading-relaxed max-w-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                  Kumpulan karya motion graphic dan video pendek untuk brand, produk, dan konten sosial media.
+                </motion.p>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                  {motionVideos.map((v, i) => (
+                    <motion.div key={i} variants={itemVariants}>
+                      <MotionVideo {...v} />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.section>
           {/* ── GRAPHIC DESIGN ── */}
           <motion.section
             id="graphic"
@@ -1080,6 +1182,7 @@ export default function Portfolio() {
             variants={containerVariants}
             className="max-w-5xl mx-auto mt-40"
           >
+
             <div className="flex flex-col md:flex-row gap-16">
               <div className="flex-shrink-0 md:w-16">
                 <motion.div variants={itemVariants} className="sticky top-24">
