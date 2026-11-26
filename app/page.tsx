@@ -1,154 +1,55 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useSpring, type Variants } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 
-const navItems = [
-  { id: "web", label: "Web Projects", num: "03" },
-  { id: "uiux", label: "UI/UX", num: "04" },
-  { id: "motion", label: "Motion", num: "05" },
-  { id: "graphic", label: "Graphic Design", num: "06" },
-  { id: "branding", label: "Branding", num: "07" },
-  { id: "contact", label: "Contact", num: "" },
+import Navbar from "@/components/Navbar";
+import Section, { containerVariants, itemVariants } from "@/components/Section";
+import MotionVideo from "@/components/MotionVideo";
+import GithubIcon from "@/components/GithubIcon";
+import {
+  webProjects,
+  uiuxProjects,
+  motionVideos,
+  graphicPages,
+  skillGroups,
+  marqueeItems,
+  logos,
+  scratches,
+  grainUrl,
+} from "@/lib/data";
+
+const contacts = [
+  { icon: "📧", label: "masbin544@gmail.com", href: "mailto:masbin544@gmail.com", accent: "#60a5fa" },
+  { icon: "💬", label: "+62 817 7417 8707", href: "https://wa.me/6281774178707", accent: "#34d399" },
+  { icon: <GithubIcon className="w-5 h-5" />, label: "github.com/masbin5", href: "https://github.com/masbin5", accent: "#818cf8" },
 ];
 
-const mobileNav = [
-  { id: "web", short: "Web", icon: "code" },
-  { id: "uiux", short: "UI/UX", icon: "layout" },
-  { id: "motion", short: "Motion", icon: "play" },
-  { id: "graphic", short: "Design", icon: "image" },
-  { id: "branding", short: "Brand", icon: "gem" },
-  { id: "contact", short: "Contact", icon: "mail" },
-];
-
-function NavIcon({ name }: { name: string }) {
-  const p = {
-    width: 18,
-    height: 18,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: 1.8,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-  };
-  switch (name) {
-    case "code":
-      return (<svg {...p}><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg>);
-    case "layout":
-      return (<svg {...p}><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18M9 21V9" /></svg>);
-    case "play":
-      return (<svg {...p}><circle cx="12" cy="12" r="9" /><path d="m10 8.5 5 3.5-5 3.5z" /></svg>);
-    case "image":
-      return (<svg {...p}><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="9" cy="9" r="1.5" /><path d="m21 15-5-5L5 21" /></svg>);
-    case "gem":
-      return (<svg {...p}><path d="M6 3h12l4 6-10 13L2 9Z" /><path d="M11 3 8 9l4 13 4-13-3-6" /><path d="M2 9h20" /></svg>);
-    default:
-      return (<svg {...p}><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>);
-  }
-}
-
-const grainSvg = `<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(#n)'/></svg>`;
-const grainUrl = `url("data:image/svg+xml;utf8,${encodeURIComponent(grainSvg)}")`;
-
-const scratches = [
-  { l: "6%", h: "55%", o: 0.16, light: true },
-  { l: "11%", h: "80%", o: 0.1, light: false },
-  { l: "19%", h: "38%", o: 0.2, light: true },
-  { l: "27%", h: "70%", o: 0.12, light: false },
-  { l: "34%", h: "48%", o: 0.18, light: true },
-  { l: "41%", h: "90%", o: 0.1, light: false },
-  { l: "47%", h: "62%", o: 0.22, light: true },
-  { l: "53%", h: "42%", o: 0.12, light: false },
-  { l: "60%", h: "75%", o: 0.16, light: true },
-  { l: "66%", h: "58%", o: 0.1, light: false },
-  { l: "72%", h: "85%", o: 0.2, light: true },
-  { l: "79%", h: "46%", o: 0.12, light: false },
-  { l: "86%", h: "66%", o: 0.18, light: true },
-  { l: "93%", h: "52%", o: 0.14, light: false },
-];
-function MotionVideo({
-  src,
-  title,
-  tag,
-  aspect,
-}: {
-  src: string;
-  title: string;
-  tag: string;
-  aspect: string;
-}) {
-  const ref = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const v = ref.current;
-    if (!v) return;
-    v.muted = true;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) v.play().catch(() => {});
-        else v.pause();
-      },
-      { threshold: 0.35 }
-    );
-    io.observe(v);
-    return () => io.disconnect();
-  }, []);
-
-  return (
-    <div
-      className="card-hover-border relative rounded-2xl overflow-hidden border"
-      style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
-    >
-      <div style={{ aspectRatio: aspect, background: "#000" }}>
-        <video
-          ref={ref}
-          src={encodeURI(src)}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          className="w-full h-full object-contain block"
-        />
-      </div>
-      <div className="p-4 flex flex-col items-start gap-1">
-        <h3 className="font-syne font-bold text-sm text-stone-100 tracking-tight">{title}</h3>
-        <span className="font-mono-dm text-[10px] tracking-wide text-amber-400/80">{tag}</span>
-      </div>
-    </div>
-  );
-}
 export default function Portfolio() {
   const [available, setAvailable] = useState<boolean>(true);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  /* Animasi hero saat scroll */
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.15], [1, 0.92]);
   const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -60]);
-  const [activeSection, setActiveSection] = useState<string>("");
-    useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) setActiveSection(e.target.id);
-        });
-      },
-      { rootMargin: "-40% 0px -55% 0px" }
-    );
-    navItems.forEach((n) => {
-      const el = document.getElementById(n.id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
-  }, []);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+
+  /* Kursor kustom */
+  const mouseX = useMotionValue(-100); // di luar layar sampai mouse bergerak
+  const mouseY = useMotionValue(-100);
   const smoothX = useSpring(mouseX, { stiffness: 80, damping: 20 });
   const smoothY = useSpring(mouseY, { stiffness: 80, damping: 20 });
 
+  useEffect(() => {
+    const move = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+    window.addEventListener("mousemove", move);
+    return () => window.removeEventListener("mousemove", move);
+  }, [mouseX, mouseY]);
+
+  /* Status "Available for work" disimpan di browser */
   useEffect(() => {
     const saved = localStorage.getItem("availability");
     if (saved !== null) setAvailable(JSON.parse(saved));
@@ -158,200 +59,21 @@ export default function Portfolio() {
     localStorage.setItem("availability", JSON.stringify(available));
   }, [available]);
 
-  useEffect(() => {
-    const move = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-    };
-    window.addEventListener("mousemove", move);
-    return () => window.removeEventListener("mousemove", move);
-  }, [mouseX, mouseY]);
-
-  const webProjects = [
-    {
-      title: "Website Portfolio Interaktif",
-      desc: "Website portfolio personal dengan animasi modern, smooth transitions, dan interactive elements menggunakan Next.js dan Framer Motion.",
-      duration: "2 Minggu",
-      tags: ["Next.js", "Framer Motion", "Tailwind"],
-      link: "https://projek-landingpage-cbda.vercel.app/",
-      image: "/projects/portofolio-web.png",
-      accent: "#10b981",
-    },
-    {
-      title: "Web Project – Company Profile",
-      desc: "Company profile website designed with a clean and structured layout, featuring a modern hero section, organized content hierarchy, responsive design, and scalable components.",
-      duration: "3 Minggu",
-      tags: ["Next.js", "Tailwind", "Responsive"],
-      link: "https://taxmin-platform.vercel.app/",
-      image: "/projects/compro-web.png",
-      accent: "#34d399",
-    },
-    {
-      title: "Website Toko Roti",
-      desc: "Website toko roti dengan fitur katalog produk, pemesanan online, dan tampilan modern yang user-friendly.",
-      duration: "1 Minggu",
-      tags: ["HTML", "CSS", "JS"],
-      link: "https://toko-roti-lafarine.vercel.app/",
-      image: "/projects/tokoroti.png",
-      accent: "#10b981",
-    },
-    {
-      title: "Website Konsultasi Kesehatan",
-      desc: "Platform konsultasi kesehatan online yang memungkinkan pengguna untuk berkonsultasi dengan tenaga medis, dilengkapi fitur booking, live chat, dan tampilan responsif yang mudah digunakan.",
-      duration: "1 Minggu",
-      tags: ["HTML", "CSS", "JS"],
-      link: "https://sehatku-web.vercel.app/",
-      image: "/projects/kesehatan.png",
-      accent: "#38bdf8",
-    },
-    {
-      title: "BYD Harmoni Palmerah – Automotive Website",
-      desc: "Responsive automotive sales website for BYD Harmoni Palmerah, featuring BYD and DENZA vehicle catalogs, promotional offers, credit simulation, test drive information, and direct WhatsApp sales consultation.",
-      duration: "Project Website",
-      tags: ["Next.js", "Tailwind", "Responsive", "Automotive"],
-      link: "https://www.rarabydpalmerah.com/",
-      image: "/projects/byd-harmoni-palmerah.png",
-      accent: "#2563eb",
-    },
-  ];
-
-  const uiuxProjects = [
-    {
-      title: "Uper-Food",
-      desc: "Aplikasi pemesanan makanan iOS & Android dengan UX fokus ke kecepatan dan kemudahan order.",
-      duration: "1 Minggu",
-      tags: ["UI/UX", "Mobile App", "Figma"],
-      link: "https://www.figma.com/design/xjtxgCb06ehlCZN1yaZjFq/Uper-Food?node-id=0-1",
-      accent: "#10b981",
-    },
-    {
-      title: "Elecon-Apps",
-      desc: "Aplikasi layanan elektrik & elektronik dengan tampilan modern dan efisien.",
-      duration: "1+ Minggu",
-      tags: ["UI/UX", "Mobile", "Dashboard"],
-      link: "https://www.figma.com/design/lOAx5XRpjt8UJ2uKxAXDkT/Elecon-Apps?node-id=0-1",
-      accent: "#60a5fa",
-    },
-    {
-      title: "ViCit Try-On Visual",
-      desc: "Aplikasi & website virtual try-on untuk fashion dengan pendekatan visual interaktif.",
-      duration: "3 Minggu",
-      tags: ["UI/UX", "Web App", "Prototype"],
-      link: "https://www.figma.com/design/trkZJNl5Jjrvyuf6V0mye3/ViCit-Try-on-Visual?node-id=0-1",
-      accent: "#c084fc",
-    },
-    {
-      title: "APP-Tau Kajian",
-      desc: "Aplikasi pencarian kajian edukasi & keagamaan dengan UX sederhana dan informatif.",
-      duration: "1+ Minggu",
-      tags: ["UI/UX", "Mobile", "Research"],
-      link: "https://www.figma.com/design/t3KMTo1RzkNJnTLGzw9XR2/APP-Tau-Kajian?node-id=2-34",
-      accent: "#34d399",
-    },
-    {
-      title: "Panggil Aja",
-      desc: "Aplikasi layanan on-demand berbasis desktop dengan alur pemesanan yang ringkas.",
-      duration: "1+ Minggu",
-      tags: ["UI/UX", "Desktop App"],
-      link: "https://www.figma.com/design/2RvM70FmM6RY1WMC0V85UY/Panggil-Aja?node-id=0-1",
-      accent: "#fb7185",
-    },
-    {
-      title: "Website Survei Harian PTTUN",
-      desc: "Redesign dan pembaruan tampilan website survei harian agar lebih modern dan mudah digunakan.",
-      duration: "2 Minggu",
-      tags: ["Website", "UI Redesign"],
-      link: "https://survei-harian.pttun-banjarmasin.go.id/",
-      accent: "#818cf8",
-    },
-    {
-      title: "INTAN – Integrasi Administrasi & Kepegawaian",
-      desc: "Website internal untuk integrasi administrasi dan kepegawaian.",
-      duration: "1 Bulan",
-      tags: ["Website", "Internal System"],
-      link: "#",
-      accent: "#94a3b8",
-    },
-  ];
-    const motionVideos = [
-    { src: "/motion/invly.id - mini task - Bintang.mp4", title: "invly.id – Mini Task", tag: "Motion Graphic", aspect: "9/16" },
-    { src: "/motion/Digium Vid Tiktok.mp4", title: "Digium – Video TikTok", tag: "TikTok", aspect: "9/16" },
-    { src: "/motion/Nusantara Sweet - Motion Graphc.mp4", title: "Nusantara Sweet", tag: "Motion Graphic", aspect: "9/16" },
-        { src: "/motion/Lift Lantai 13.mp4", title: "Lift Lantai 13", tag: "Motion Graphic", aspect: "9/16" },
-  ];
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
-  };
-
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 32 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
-  };
-
-    const skillGroups = [
-    {
-      title: "Frontend",
-      icon: "⌨",
-      items: [
-        { name: "HTML5", core: true },
-        { name: "CSS3", core: true },
-        { name: "JavaScript (ES6+)", core: true },
-        { name: "TypeScript", core: false },
-        { name: "React.js", core: true },
-        { name: "Next.js", core: true },
-        { name: "Tailwind CSS", core: true },
-        { name: "Bootstrap", core: false },
-        { name: "Framer Motion", core: false },
-        { name: "shadcn/ui", core: false },
-        { name: "Responsive Design", core: true },
-      ],
-    },
-    {
-      title: "Backend & Database",
-      icon: "⬢",
-      items: [
-        { name: "Laravel", core: true },
-        { name: "PHP", core: true },
-        { name: "Node.js", core: false },
-        { name: "Express.js", core: false },
-        { name: "MySQL", core: true },
-        { name: "REST API", core: true },
-      ],
-    },
-    {
-      title: "Tools & Workflow",
-      icon: "◈",
-      items: [
-        { name: "Git", core: true },
-        { name: "GitHub", core: true },
-        { name: "VS Code", core: true },
-        { name: "Figma", core: true },
-        { name: "Vercel", core: false },
-        { name: "Postman", core: false },
-        { name: "npm", core: false },
-        { name: "Chrome DevTools", core: false },
-      ],
-    },
-  ];
-  
-  const graphicPages = Array.from(
-  { length: 13 },
-  (_, i) => `/graphic/pages/page-${String(i + 1).padStart(2, "0")}.jpg`
-);
-
   return (
     <>
-      {/* Google Fonts */}
+      {/* Font + CSS global halaman ini */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap');
 
-        * { cursor: none !important; }
-                html { scroll-behavior: smooth; }
+        /* Kursor kustom hanya untuk mouse. Di HP/tablet sentuh disembunyikan. */
+        @media (pointer: fine) { * { cursor: none !important; } }
+        @media (pointer: coarse) { .custom-cursor { display: none !important; } }
+
+        html { scroll-behavior: smooth; }
         section[id] { scroll-margin-top: 4rem; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { scrollbar-width: none; }  
+        .no-scrollbar { scrollbar-width: none; }
+
         .font-syne { font-family: 'Syne', sans-serif; }
         .font-mono-dm { font-family: 'DM Mono', monospace; }
 
@@ -367,14 +89,6 @@ export default function Portfolio() {
           0%, 100% { opacity: 0.15; transform: scale(1); }
           50% { opacity: 0.4; transform: scale(1.08); }
         }
-        @keyframes draw-line {
-          from { stroke-dashoffset: 1000; }
-          to { stroke-dashoffset: 0; }
-        }
-        @keyframes shimmer2 {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(200%); }
-        }
         @keyframes text-shimmer {
           0% { background-position: -200% center; }
           100% { background-position: 200% center; }
@@ -389,7 +103,7 @@ export default function Portfolio() {
         .geo-3 { animation: float-geo 11s ease-in-out infinite 2s; }
         .pulse-ring { animation: pulse-ring 4s ease-in-out infinite; }
 
-        .gold-shimmer {
+        .shimmer-text {
           background: linear-gradient(90deg, #6ee7b7, #ecfdf5, #34d399, #d1fae5, #6ee7b7);
           background-size: 200% auto;
           -webkit-background-clip: text;
@@ -398,48 +112,42 @@ export default function Portfolio() {
           animation: text-shimmer 4s linear infinite;
         }
 
-        .card-hover-border {
-          transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-        }
+        .card-hover-border { transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
         .card-hover-border:hover {
-          box-shadow: 0 0 0 1px rgba(16,185,129, 0.25), 0 20px 60px -20px rgba(16,185,129, 0.1);
+          box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.25), 0 20px 60px -20px rgba(16, 185, 129, 0.1);
         }
 
         .marquee-track { animation: marquee 20s linear infinite; }
         .marquee-track:hover { animation-play-state: paused; }
 
-        .skill-bar-fill { transition: width 1.4s cubic-bezier(0.22, 1, 0.36, 1); }
-
         ::-webkit-scrollbar { width: 3px; }
         ::-webkit-scrollbar-track { background: #0c0a09; }
-        ::-webkit-scrollbar-thumb { background: rgba(16,185,129, 0.3); border-radius: 2px; }
+        ::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.3); border-radius: 2px; }
       `}</style>
 
-      {/* Custom cursor */}
+      {/* Menu navigasi (desktop: atas, HP: dock bawah) */}
+      <Navbar />
+
+      {/* Kursor kustom */}
       <motion.div
-        className="fixed z-[9999] pointer-events-none"
+        className="custom-cursor fixed z-[9999] pointer-events-none"
         style={{ left: smoothX, top: smoothY, translateX: "-50%", translateY: "-50%" }}
       >
-        <div className="w-4 h-4 rounded-full bg-amber-400/80 mix-blend-difference" />
+        <div className="w-4 h-4 rounded-full bg-emerald-400/80 mix-blend-difference" />
       </motion.div>
       <motion.div
-        className="fixed z-[9998] pointer-events-none"
-        style={{
-          left: mouseX,
-          top: mouseY,
-          translateX: "-50%",
-          translateY: "-50%",
-        }}
+        className="custom-cursor fixed z-[9998] pointer-events-none"
+        style={{ left: mouseX, top: mouseY, translateX: "-50%", translateY: "-50%" }}
       >
         <div
-          className="w-10 h-10 rounded-full border border-amber-400/20 pointer-events-none"
+          className="w-10 h-10 rounded-full border border-emerald-400/20 pointer-events-none"
           style={{ transition: "all 0.15s ease" }}
         />
       </motion.div>
 
-      {/* Cursor glow */}
+      {/* Cahaya mengikuti kursor */}
       <motion.div
-        className="fixed pointer-events-none z-0 rounded-full"
+        className="custom-cursor fixed pointer-events-none z-0 rounded-full"
         style={{
           left: smoothX,
           top: smoothY,
@@ -451,7 +159,8 @@ export default function Portfolio() {
         }}
       />
 
-            <div
+      {/* ═════════ Pembungkus utama ═════════ */}
+      <div
         className="min-h-screen text-stone-100 px-6 py-0 relative overflow-hidden font-syne"
         style={{ background: "#0c0a09" }}
       >
@@ -481,24 +190,16 @@ export default function Portfolio() {
         </div>
 
         {/* Grain film di seluruh halaman */}
-        <div
-          className="fixed inset-0 pointer-events-none z-[40]"
-          style={{ backgroundImage: grainUrl, opacity: 0.09 }}
-        />
+        <div className="fixed inset-0 pointer-events-none z-[40]" style={{ backgroundImage: grainUrl, opacity: 0.09 }} />
 
-        {/* Floating geometric shapes */}
+        {/* Bentuk geometris melayang */}
         <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-          {/* Diamond top-right */}
           <div className="geo-1 absolute" style={{ top: "12%", right: "8%", width: 60, height: 60, border: "1px solid rgba(16,185,129,0.16)", transform: "rotate(45deg)" }} />
-          {/* Circle mid-left */}
           <div className="geo-2 absolute" style={{ top: "38%", left: "4%", width: 90, height: 90, border: "1px solid rgba(16,185,129,0.1)", borderRadius: "50%" }} />
-          {/* Small square bottom-left */}
           <div className="geo-3 absolute" style={{ bottom: "20%", left: "10%", width: 30, height: 30, border: "1px solid rgba(52,211,153,0.18)", transform: "rotate(30deg)" }} />
-          {/* Triangle-ish polygon */}
           <svg className="geo-1 absolute" style={{ top: "65%", right: "6%", opacity: 0.09 }} width="80" height="80" viewBox="0 0 80 80">
             <polygon points="40,4 76,68 4,68" fill="none" stroke="#10b981" strokeWidth="1" />
           </svg>
-          {/* Dotted grid pattern */}
           <svg className="absolute" style={{ top: "25%", right: "18%", opacity: 0.05 }} width="120" height="120" viewBox="0 0 120 120">
             {Array.from({ length: 5 }).map((_, r) =>
               Array.from({ length: 5 }).map((_, c) => (
@@ -508,169 +209,18 @@ export default function Portfolio() {
           </svg>
         </div>
 
-        {/* Top border accent line */}
+        {/* Garis aksen atas */}
         <div className="fixed top-0 left-0 right-0 h-[1px] z-50" style={{ background: "linear-gradient(90deg, transparent, rgba(16,185,129,0.5), transparent)" }} />
-                {/* Navigation */}
-        <div className="hidden md:flex fixed top-4 inset-x-0 z-50 justify-center px-3 pointer-events-none">
-          <motion.nav
-            initial={{ opacity: 0, y: -24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="pointer-events-auto relative flex items-center max-w-full rounded-full border p-1.5 overflow-hidden"
-            style={{
-              background: "rgba(12,10,9,0.72)",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-              borderColor: "rgba(16,185,129,0.18)",
-              boxShadow: "0 10px 40px -12px rgba(0,0,0,0.6)",
-            }}
-          >
-            {/* Monogram: klik untuk kembali ke atas */}
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-              className="flex items-center gap-2 pl-3 pr-3 shrink-0"
-            >
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-60" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-400" />
-              </span>
-              <span className="hidden sm:inline font-mono-dm text-[11px] tracking-[0.2em] uppercase text-stone-300">
-                B.A
-              </span>
-            </a>
 
-            <div className="w-px h-5 shrink-0" style={{ background: "rgba(16,185,129,0.18)" }} />
-
-            {/* Link section */}
-            <div className="flex items-center gap-0.5 px-1 min-w-0 overflow-x-auto no-scrollbar">
-              {navItems
-                .filter((n) => n.id !== "contact")
-                .map((n) => {
-                  const active = activeSection === n.id;
-                  return (
-                    <a
-                      key={n.id}
-                      href={`#${n.id}`}
-                      className="group relative flex items-center gap-1.5 px-3.5 py-2 rounded-full whitespace-nowrap"
-                    >
-                      {active && (
-                        <motion.span
-                          layoutId="nav-active"
-                          className="absolute inset-0 rounded-full"
-                          style={{
-                            background: "rgba(16,185,129,0.12)",
-                            border: "1px solid rgba(16,185,129,0.3)",
-                          }}
-                          transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                        />
-                      )}
-                      <span
-                        className={`relative z-10 font-mono-dm text-[10px] transition-colors duration-300 ${
-                          active ? "text-amber-400" : "text-stone-600 group-hover:text-amber-400/70"
-                        }`}
-                      >
-                        {n.num}
-                      </span>
-                      <span
-                        className={`relative z-10 font-syne font-semibold text-xs tracking-wide transition-colors duration-300 ${
-                          active ? "text-stone-50" : "text-stone-400 group-hover:text-stone-100"
-                        }`}
-                      >
-                        {n.label}
-                      </span>
-                    </a>
-                  );
-                })}
-            </div>
-
-            <div className="w-px h-5 shrink-0 mx-1" style={{ background: "rgba(16,185,129,0.18)" }} />
-
-            {/* CTA Contact */}
-            <motion.a
-              href="#contact"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              className="shrink-0 px-4 py-2 rounded-full text-xs font-syne font-semibold tracking-wide text-stone-900"
-              style={{ background: "linear-gradient(135deg, #10b981, #34d399)" }}
-            >
-              Contact
-            </motion.a>
-
-            {/* Garis progres scroll */}
-            <motion.div
-              className="absolute left-0 bottom-0 h-[2px] w-full origin-left"
-              style={{ scaleX: scrollYProgress, background: "linear-gradient(90deg, #10b981, #a7f3d0)" }}
-            />
-          </motion.nav>
-        </div>
-                  {/* Navigation mobile: dock bawah */}
-        <div className="md:hidden fixed bottom-4 inset-x-0 z-50 flex justify-center px-3 pointer-events-none">
-          <motion.nav
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="pointer-events-auto flex items-center gap-1 rounded-full border p-1.5 max-w-full"
-            style={{
-              background: "rgba(12,10,9,0.78)",
-              backdropFilter: "blur(18px)",
-              WebkitBackdropFilter: "blur(18px)",
-              borderColor: "rgba(16,185,129,0.22)",
-              boxShadow: "0 12px 40px -10px rgba(0,0,0,0.7)",
-              marginBottom: "env(safe-area-inset-bottom)",
-            }}
-          >
-            {mobileNav.map((n) => {
-              const active = activeSection === n.id;
-              const isContact = n.id === "contact";
-              return (
-                <a
-                  key={n.id}
-                  href={`#${n.id}`}
-                  aria-label={n.short}
-                  className="relative flex items-center justify-center h-10 rounded-full px-2.5"
-                  style={isContact ? { background: "linear-gradient(135deg, #10b981, #34d399)", color: "#0c0a09" } : undefined}
-                >
-                  {active && !isContact && (
-                    <motion.span
-                      layoutId="m-nav-active"
-                      className="absolute inset-0 rounded-full"
-                      style={{ background: "rgba(16,185,129,0.14)", border: "1px solid rgba(16,185,129,0.35)" }}
-                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                    />
-                  )}
-                  <span className={`relative z-10 transition-colors duration-300 ${isContact ? "" : active ? "text-amber-400" : "text-stone-400"}`}>
-                    <NavIcon name={n.icon} />
-                  </span>
-                  <motion.span
-                    initial={false}
-                    animate={{ width: active ? "auto" : 0, opacity: active ? 1 : 0, marginLeft: active ? 6 : 0 }}
-                    transition={{ duration: 0.25 }}
-                    className={`relative z-10 overflow-hidden whitespace-nowrap font-syne font-semibold text-xs ${isContact ? "" : "text-stone-50"}`}
-                  >
-                    {n.short}
-                  </motion.span>
-                </a>
-              );
-            })}
-          </motion.nav>
-        </div>
-
-        </div>
-        {/* Thin vertical line left */}
+        {/* Garis vertikal kiri */}
         <div className="fixed top-0 left-[3.5rem] bottom-0 w-px z-0 hidden md:block" style={{ background: "linear-gradient(to bottom, transparent, rgba(16,185,129,0.06) 20%, rgba(16,185,129,0.06) 80%, transparent)" }} />
 
         <div className="relative z-10">
-
           {/* ── HERO ── */}
           <motion.section
             style={{ opacity, scale, y: heroY }}
             className="max-w-5xl mx-auto min-h-screen flex flex-col justify-center pt-16"
           >
-            {/* Small eyebrow */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -678,11 +228,11 @@ export default function Portfolio() {
               className="flex items-center gap-3 mb-10"
             >
               <div className="w-8 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
-              <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">Portfolio 2026</span>
+              <span className="font-mono-dm text-xs tracking-[0.2em] text-emerald-400/70 uppercase">Portfolio 2026</span>
             </motion.div>
 
             <div className="flex flex-col md:flex-row gap-12 items-start md:items-center">
-              {/* Left: text */}
+              {/* Teks */}
               <div className="flex-1">
                 <motion.h1
                   initial={{ opacity: 0, y: 40 }}
@@ -691,7 +241,7 @@ export default function Portfolio() {
                   className="text-6xl md:text-[5.5rem] font-syne font-bold leading-[0.95] tracking-tight mb-6"
                 >
                   <span className="text-stone-100 block">Designing</span>
-                  <span className="block gold-shimmer">intuitive</span>
+                  <span className="block shimmer-text">intuitive</span>
                   <span className="text-stone-500 font-normal block">experiences.</span>
                 </motion.h1>
 
@@ -739,23 +289,20 @@ export default function Portfolio() {
                       className="px-7 py-3.5 text-sm font-medium tracking-wide rounded-full text-stone-300 border flex items-center gap-2 transition-all"
                       style={{ borderColor: "rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)" }}
                     >
-                      <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
-                      </svg>
+                      <GithubIcon />
                       GitHub
                     </motion.button>
                   </a>
                 </motion.div>
               </div>
 
-              {/* Right: profile image */}
+              {/* Foto profil */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.3, duration: 1, ease: [0.22, 1, 0.36, 1] }}
                 className="relative flex-shrink-0"
               >
-                {/* Decorative rings */}
                 <div className="pulse-ring absolute inset-[-24px] rounded-[2.5rem] border" style={{ borderColor: "rgba(16,185,129,0.15)" }} />
                 <div className="pulse-ring absolute inset-[-44px] rounded-[3rem] border" style={{ borderColor: "rgba(16,185,129,0.07)", animationDelay: "1.5s" }} />
 
@@ -763,10 +310,8 @@ export default function Portfolio() {
                   className="relative w-64 h-72 rounded-[2rem] overflow-hidden border"
                   style={{ borderColor: "rgba(16,185,129,0.15)", background: "#1c1917" }}
                 >
-                  {/* Corner accents */}
                   <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 rounded-tl-2xl" style={{ borderColor: "rgba(16,185,129,0.5)" }} />
                   <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 rounded-br-2xl" style={{ borderColor: "rgba(16,185,129,0.5)" }} />
-
                   <img src="/profile/profile.jpg" alt="Bintang Akbar Alim" className="w-full h-full object-cover opacity-90" />
                   <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(12,10,9,0.5) 0%, transparent 50%)" }} />
                 </div>
@@ -776,7 +321,7 @@ export default function Portfolio() {
                   onClick={() => setAvailable(!available)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-mono-dm tracking-wide cursor-pointer select-none"
+                  className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-mono-dm tracking-wide cursor-pointer select-none whitespace-nowrap"
                   style={{
                     background: available ? "rgba(16,185,129,0.1)" : "rgba(255,255,255,0.03)",
                     borderColor: available ? "rgba(16,185,129,0.3)" : "rgba(255,255,255,0.08)",
@@ -785,8 +330,8 @@ export default function Portfolio() {
                 >
                   {available && (
                     <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-400" />
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
                     </span>
                   )}
                   {available ? "Available for work" : "Not Available"}
@@ -794,7 +339,7 @@ export default function Portfolio() {
               </motion.div>
             </div>
 
-            {/* Scroll hint */}
+            {/* Petunjuk scroll */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -811,483 +356,254 @@ export default function Portfolio() {
             </motion.div>
           </motion.section>
 
-          {/* ── MARQUEE STRIP ── */}
+          {/* ── MARQUEE ── */}
           <div className="relative overflow-hidden py-6 my-20 border-y" style={{ borderColor: "rgba(16,185,129,0.06)" }}>
             <div className="flex gap-16 marquee-track whitespace-nowrap">
-              {["UI/UX Design", "Figma", "Next.js", "React.js", "Tailwind CSS", "Framer Motion", "Graphic Design", "Laravel", "Visual Branding", "UI/UX Design", "Figma", "Next.js", "React.js", "Tailwind CSS", "Framer Motion", "Graphic Design", "Laravel", "Visual Branding"].map((t, i) => (
-                <span key={i} className="font-syne font-semibold text-sm tracking-widest uppercase" style={{ color: i % 3 === 1 ? "rgba(16,185,129,0.4)" : "rgba(255,255,255,0.06)" }}>
+              {[...marqueeItems, ...marqueeItems].map((t, i) => (
+                <span
+                  key={i}
+                  className="font-syne font-semibold text-sm tracking-widest uppercase"
+                  style={{ color: i % 3 === 1 ? "rgba(16,185,129,0.4)" : "rgba(255,255,255,0.06)" }}
+                >
                   {t}
                 </span>
               ))}
             </div>
           </div>
 
-          {/* ── ABOUT ── */}
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={containerVariants}
-            className="max-w-5xl mx-auto mt-16"
-          >
-            <div className="flex flex-col md:flex-row gap-16">
-              {/* Section numbering */}
-              <div className="flex-shrink-0 md:w-16">
-                <motion.div variants={itemVariants} className="sticky top-24">
-                  <span className="font-mono-dm text-xs text-stone-700 block mb-2">01</span>
-                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(16,185,129,0.3), transparent)" }} />
-                </motion.div>
-              </div>
+          {/* ── 01 ABOUT ── */}
+          <Section num="01" label="About Me" title="Crafting digital solutions" subtitle="with passion." top="mt-16" titleMb="mb-8">
+            <motion.div
+              variants={itemVariants}
+              className="space-y-4 text-stone-500 leading-relaxed font-sans text-[0.95rem]"
+              style={{ fontFamily: "'DM Sans', sans-serif" }}
+            >
+              <p>
+                Saya adalah <span className="text-emerald-400/80 font-medium">UI/UX Designer</span>, <span className="text-emerald-400/80 font-medium">Graphic Designer</span>, dan <span className="text-emerald-400/80 font-medium">Junior Web Developer</span> dengan pengalaman lebih dari 2 tahun dalam merancang dan membangun solusi digital yang fungsional, estetis, serta berorientasi pada pengguna.
+              </p>
+              <p>
+                Dalam peran UI/UX, saya berfokus pada perancangan user flow, wireframing, dan prototyping menggunakan Figma untuk menciptakan pengalaman pengguna yang intuitif dan efisien. Sebagai Graphic Designer, saya terbiasa mengerjakan desain logo, visual branding, serta elemen grafis yang konsisten dengan identitas brand.
+              </p>
+              <p>
+                Sebagai Junior Web Developer, saya mampu mengimplementasikan desain ke dalam website yang responsif dan terstruktur menggunakan <span className="text-stone-300 font-medium">HTML, CSS, JavaScript</span>, serta framework modern seperti <span className="text-stone-300 font-medium">Next.js</span>, <span className="text-stone-300 font-medium">React.js</span> dan <span className="text-stone-300 font-medium">Laravel</span>.
+              </p>
+              <p>
+                Pendekatan saya selalu berpusat pada keseimbangan antara estetika visual yang menarik dan fungsionalitas yang solid, dengan tujuan menciptakan produk digital yang tidak hanya indah dilihat, tetapi juga mudah digunakan dan memberi dampak nyata.
+              </p>
+            </motion.div>
+          </Section>
 
-              <div className="flex-1">
-                <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-6">
-                  <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
-                  <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">About Me</span>
-                </motion.div>
-
-                <motion.h2
+          {/* ── 02 SKILLS ── */}
+          <Section num="02" label="Skills & Expertise" title="What I bring" subtitle="to the table.">
+            <div className="grid md:grid-cols-3 gap-5">
+              {skillGroups.map((g) => (
+                <motion.div
+                  key={g.title}
                   variants={itemVariants}
-                  className="font-syne font-bold text-4xl md:text-5xl mb-8 leading-tight"
-                  style={{ letterSpacing: "-0.02em", color: "#fafaf9" }}
-                >
-                  Crafting digital solutions<br />
-                  <span className="text-stone-500 font-normal">with passion.</span>
-                </motion.h2>
-
-                <motion.div variants={itemVariants} className="space-y-4 text-stone-500 leading-relaxed font-sans text-[0.95rem]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                  <p>
-                    Saya adalah <span className="text-amber-400/80 font-medium">UI/UX Designer</span>, <span className="text-amber-400/80 font-medium">Graphic Designer</span>, dan <span className="text-amber-400/80 font-medium">Junior Web Developer</span> dengan pengalaman lebih dari 2 tahun dalam merancang dan membangun solusi digital yang fungsional, estetis, serta berorientasi pada pengguna.
-                  </p>
-                  <p>
-                    Dalam peran UI/UX, saya berfokus pada perancangan user flow, wireframing, dan prototyping menggunakan Figma untuk menciptakan pengalaman pengguna yang intuitif dan efisien. Sebagai Graphic Designer, saya terbiasa mengerjakan desain logo, visual branding, serta elemen grafis yang konsisten dengan identitas brand.
-                  </p>
-                  <p>
-                    Sebagai Junior Web Developer, saya mampu mengimplementasikan desain ke dalam website yang responsif dan terstruktur menggunakan <span className="text-stone-300 font-medium">HTML, CSS, JavaScript</span>, serta framework modern seperti <span className="text-stone-300 font-medium">Next.js</span>, <span className="text-stone-300 font-medium">React.js</span> dan <span className="text-stone-300 font-medium">Laravel</span>.
-                  </p>
-                  <p>
-                    Pendekatan saya selalu berpusat pada keseimbangan antara estetika visual yang menarik dan fungsionalitas yang solid, dengan tujuan menciptakan produk digital yang tidak hanya indah dilihat, tetapi juga mudah digunakan dan memberi dampak nyata.
-                  </p>
-                </motion.div>
-              </div>
-            </div>
-          </motion.section>
-
-          {/* ── SKILLS ── */}
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={containerVariants}
-            className="max-w-5xl mx-auto mt-40"
-          >
-            <div className="flex flex-col md:flex-row gap-16">
-              <div className="flex-shrink-0 md:w-16">
-                <motion.div variants={itemVariants} className="sticky top-24">
-                  <span className="font-mono-dm text-xs text-stone-700 block mb-2">02</span>
-                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(16,185,129,0.3), transparent)" }} />
-                </motion.div>
-              </div>
-
-              <div className="flex-1">
-                <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-6">
-                  <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
-                  <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">Skills & Expertise</span>
-                </motion.div>
-
-                <motion.h2
-                  variants={itemVariants}
-                  className="font-syne font-bold text-4xl md:text-5xl mb-12 leading-tight"
-                  style={{ letterSpacing: "-0.02em", color: "#fafaf9" }}
-                >
-                  What I bring<br />
-                  <span className="text-stone-500 font-normal">to the table.</span>
-                </motion.h2>
-
-                                <div className="grid md:grid-cols-3 gap-5">
-                  {skillGroups.map((g, gi) => (
-                    <motion.div
-                      key={gi}
-                      variants={itemVariants}
-                      className="card-hover-border relative rounded-2xl p-7 overflow-hidden border"
-                      style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
-                    >
-                      <div className="absolute inset-0 rounded-2xl" style={{ background: "linear-gradient(135deg, rgba(16,185,129,0.05) 0%, transparent 60%)" }} />
-                      <div className="relative">
-                        <div className="flex items-center justify-between mb-6">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm" style={{ background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.25)" }}>
-                              {g.icon}
-                            </div>
-                            <h3 className="font-syne font-semibold text-sm tracking-wide text-amber-400">{g.title}</h3>
-                          </div>
-                          <span className="font-mono-dm text-[10px] text-stone-600">{String(g.items.length).padStart(2, "0")}</span>
-                        </div>
-
-                        <div className="flex flex-wrap gap-2">
-                          {g.items.map((t) => (
-                            <span
-                              key={t.name}
-                              className="text-xs px-3 py-1.5 rounded-full transition-all duration-300 hover:-translate-y-0.5"
-                              style={
-                                t.core
-                                  ? { color: "#a7f3d0", background: "rgba(16,185,129,0.12)", border: "1px solid rgba(16,185,129,0.35)", fontFamily: "'DM Sans', sans-serif" }
-                                  : { color: "rgba(255,255,255,0.55)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", fontFamily: "'DM Sans', sans-serif" }
-                              }
-                            >
-                              {t.name}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Legend */}
-                <motion.div variants={itemVariants} className="flex items-center gap-5 mt-6 font-mono-dm text-[10px] tracking-wide text-stone-600">
-                  <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full" style={{ background: "#10b981" }} /> Core stack
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full" style={{ background: "rgba(255,255,255,0.25)" }} /> Familiar
-                  </span>
-                </motion.div>
-              </div>
-            </div>
-          </motion.section>
-
-          {/* ── WEB PROJECTS ── */}
-          <motion.section
-            id="web"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={containerVariants}
-            className="max-w-5xl mx-auto mt-40"
-          >
-            <div className="flex flex-col md:flex-row gap-16">
-              <div className="flex-shrink-0 md:w-16">
-                <motion.div variants={itemVariants} className="sticky top-24">
-                  <span className="font-mono-dm text-xs text-stone-700 block mb-2">03</span>
-                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(16,185,129,0.3), transparent)" }} />
-                </motion.div>
-              </div>
-
-              <div className="flex-1">
-                <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-6">
-                  <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
-                  <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">Web Development</span>
-                </motion.div>
-
-                <motion.h2
-                  variants={itemVariants}
-                  className="font-syne font-bold text-4xl md:text-5xl mb-12 leading-tight"
-                  style={{ letterSpacing: "-0.02em", color: "#fafaf9" }}
-                >
-                  Web Projects<br />
-                  <span className="text-stone-500 font-normal">built from scratch.</span>
-                </motion.h2>
-
-                <div className="grid md:grid-cols-2 gap-5">
-                  {webProjects.map((p, i) => (
-                    <motion.div
-                      key={i}
-                      variants={itemVariants}
-                      whileHover={{ y: -8, transition: { type: "spring", stiffness: 300, damping: 20 } }}
-                      className="group card-hover-border relative rounded-2xl overflow-hidden border"
-                      style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
-                    >
-                      {/* Image */}
-                      <div className="relative w-full h-52 overflow-hidden">
-                        <img src={p.image} alt={p.title} className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-all duration-700 group-hover:scale-105" />
-                        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #0c0a09 0%, rgba(12,10,9,0.4) 60%, transparent 100%)" }} />
-                        {/* Accent corner */}
-                        <div className="absolute top-3 right-3 px-2 py-1 rounded-md font-mono-dm text-[10px] tracking-wide" style={{ background: "rgba(12,10,9,0.7)", color: p.accent, border: `1px solid ${p.accent}30` }}>
-                          {p.duration}
-                        </div>
-                      </div>
-
-                      <div className="p-6">
-                        <h3 className="font-syne font-bold text-lg text-stone-100 mb-2 tracking-tight">{p.title}</h3>
-                        <p className="text-stone-500 text-sm leading-relaxed mb-5 font-sans" style={{ fontFamily: "'DM Sans', sans-serif" }}>{p.desc}</p>
-                        <div className="flex flex-wrap gap-2 mb-6">
-                          {p.tags.map((t, idx) => (
-                            <span key={idx} className="text-xs px-3 py-1 rounded-full font-sans" style={{ fontFamily: "'DM Sans', sans-serif", color: "rgba(255,255,255,0.4)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                              {t}
-                            </span>
-                          ))}
-                        </div>
-
-                        <a href={p.link} target="_blank" rel="noopener noreferrer">
-                          <motion.button
-                            whileHover={{ x: 4 }}
-                            className="flex items-center gap-2 text-sm font-syne font-semibold tracking-wide"
-                            style={{ color: p.accent }}
-                          >
-                            View Project
-                            <span className="text-base">→</span>
-                          </motion.button>
-                        </a>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.section>
-
-          {/* ── UI/UX PROJECTS ── */}
-          <motion.section
-            id="uiux"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={containerVariants}
-            className="max-w-5xl mx-auto mt-40"
-          >
-            <div className="flex flex-col md:flex-row gap-16">
-              <div className="flex-shrink-0 md:w-16">
-                <motion.div variants={itemVariants} className="sticky top-24">
-                  <span className="font-mono-dm text-xs text-stone-700 block mb-2">04</span>
-                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(16,185,129,0.3), transparent)" }} />
-                </motion.div>
-              </div>
-
-              <div className="flex-1">
-                <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-6">
-                  <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
-                  <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">UI/UX Design</span>
-                </motion.div>
-
-                <motion.h2
-                  variants={itemVariants}
-                  className="font-syne font-bold text-4xl md:text-5xl mb-12 leading-tight"
-                  style={{ letterSpacing: "-0.02em", color: "#fafaf9" }}
-                >
-                  UI/UX Projects<br />
-                  <span className="text-stone-500 font-normal">user-centered design.</span>
-                </motion.h2>
-
-                <div className="grid md:grid-cols-2 gap-4">
-                  {uiuxProjects.map((p, i) => (
-                    <motion.div
-                      key={i}
-                      variants={itemVariants}
-                      whileHover={{ y: -6, transition: { type: "spring", stiffness: 300, damping: 20 } }}
-                      className="group card-hover-border relative rounded-2xl p-6 border overflow-hidden"
-                      style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
-                    >
-                      {/* Accent blob */}
-                      <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: `radial-gradient(circle, ${p.accent}10 0%, transparent 70%)`, transform: "translate(30%, -30%)" }} />
-
-                      {/* Accent line top */}
-                      <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-t-2xl" style={{ background: `linear-gradient(90deg, transparent, ${p.accent}40, transparent)` }} />
-
-                      <div className="relative">
-                        <div className="flex justify-between items-start mb-3">
-                          <h3 className="font-syne font-bold text-base text-stone-100 tracking-tight pr-4">{p.title}</h3>
-                          <span className="font-mono-dm text-[10px] shrink-0 mt-1" style={{ color: p.accent }}>{p.duration}</span>
-                        </div>
-                        <p className="text-stone-500 text-sm leading-relaxed mb-5 font-sans" style={{ fontFamily: "'DM Sans', sans-serif" }}>{p.desc}</p>
-                        <div className="flex flex-wrap gap-1.5 mb-5">
-                          {p.tags.map((t, idx) => (
-                            <span key={idx} className="text-xs px-2.5 py-0.5 rounded-full" style={{ color: "rgba(255,255,255,0.35)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)", fontFamily: "'DM Sans', sans-serif" }}>
-                              {t}
-                            </span>
-                          ))}
-                        </div>
-                        <a href={p.link} target="_blank" rel="noopener noreferrer">
-                          <motion.button
-                            whileHover={{ x: 4 }}
-                            className="flex items-center gap-2 text-xs font-syne font-semibold tracking-wide opacity-60 group-hover:opacity-100 transition-opacity"
-                            style={{ color: p.accent }}
-                          >
-                            View Design →
-                          </motion.button>
-                        </a>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.section>
-                    {/* ── MOTION GRAPHIC ── */}
-          <motion.section
-            id="motion"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={containerVariants}
-            className="max-w-5xl mx-auto mt-40"
-          >
-            <div className="flex flex-col md:flex-row gap-16">
-              <div className="flex-shrink-0 md:w-16">
-                <motion.div variants={itemVariants} className="sticky top-24">
-                  <span className="font-mono-dm text-xs text-stone-700 block mb-2">06</span>
-                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(16,185,129,0.3), transparent)" }} />
-                </motion.div>
-              </div>
-
-              <div className="flex-1">
-                <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-6">
-                  <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
-                  <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">Motion Graphic</span>
-                </motion.div>
-
-                <motion.h2
-                  variants={itemVariants}
-                  className="font-syne font-bold text-4xl md:text-5xl mb-4 leading-tight"
-                  style={{ letterSpacing: "-0.02em", color: "#fafaf9" }}
-                >
-                  Motion Graphic<br />
-                  <span className="text-stone-500 font-normal">bringing ideas to life.</span>
-                </motion.h2>
-
-                <motion.p variants={itemVariants} className="text-stone-500 mb-12 font-sans text-sm leading-relaxed max-w-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                  Kumpulan karya motion graphic dan video pendek untuk brand, produk, dan konten sosial media.
-                </motion.p>
-
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {motionVideos.map((v, i) => (
-                    <motion.div key={i} variants={itemVariants}>
-                      <MotionVideo {...v} />
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.section>
-          {/* ── GRAPHIC DESIGN ── */}
-          <motion.section
-            id="graphic"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={containerVariants}
-            className="max-w-5xl mx-auto mt-40"
-          >
-            <div className="flex flex-col md:flex-row gap-16">
-              <div className="flex-shrink-0 md:w-16">
-                <motion.div variants={itemVariants} className="sticky top-24">
-                  <span className="font-mono-dm text-xs text-stone-700 block mb-2">05</span>
-                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(16,185,129,0.3), transparent)" }} />
-                </motion.div>
-              </div>
-
-              <div className="flex-1">
-                <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-6">
-                  <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
-                  <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">Graphic Design</span>
-                </motion.div>
-
-                <motion.h2
-                  variants={itemVariants}
-                  className="font-syne font-bold text-4xl md:text-5xl mb-4 leading-tight"
-                  style={{ letterSpacing: "-0.02em", color: "#fafaf9" }}
-                >
-                  Graphic Design<br />
-                  <span className="text-stone-500 font-normal">posters & visuals.</span>
-                </motion.h2>
-
-                <motion.p variants={itemVariants} className="text-stone-500 mb-12 font-sans text-sm leading-relaxed max-w-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                  Karya desain grafis berupa poster, flyer, dan konten visual dengan pendekatan bold, kreatif, dan eye-catching.
-                </motion.p>
-                  <motion.div
-                  variants={itemVariants}
-                  className="card-hover-border relative rounded-2xl overflow-hidden border"
+                  className="card-hover-border relative rounded-2xl p-7 overflow-hidden border"
                   style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
                 >
-                  {/* Toolbar */}
-                  <div
-                    className="flex items-center justify-between px-5 py-3 border-b"
-                    style={{ borderColor: "rgba(255,255,255,0.06)" }}
-                  >
-                    <span className="font-mono-dm text-xs text-stone-500 tracking-wide">
-                      Bintang - Graphic Designer
-                    </span>
-                    <span className="font-mono-dm text-xs text-stone-600">
-                      {graphicPages.length} halaman
-                      
-                    </span>
+                  <div className="absolute inset-0 rounded-2xl" style={{ background: "linear-gradient(135deg, rgba(16,185,129,0.05) 0%, transparent 60%)" }} />
+                  <div className="relative">
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm" style={{ background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.25)" }}>
+                          {g.icon}
+                        </div>
+                        <h3 className="font-syne font-semibold text-sm tracking-wide text-emerald-400">{g.title}</h3>
+                      </div>
+                      <span className="font-mono-dm text-[10px] text-stone-600">{String(g.items.length).padStart(2, "0")}</span>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2">
+                      {g.items.map((t) => (
+                        <span
+                          key={t.name}
+                          className="text-xs px-3 py-1.5 rounded-full transition-all duration-300 hover:-translate-y-0.5"
+                          style={
+                            t.core
+                              ? { color: "#a7f3d0", background: "rgba(16,185,129,0.12)", border: "1px solid rgba(16,185,129,0.35)", fontFamily: "'DM Sans', sans-serif" }
+                              : { color: "rgba(255,255,255,0.55)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", fontFamily: "'DM Sans', sans-serif" }
+                          }
+                        >
+                          {t.name}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-
-                  {/* Halaman langsung tersusun ke bawah, tanpa scroll di dalam kotak */}
-                  <div className="flex flex-col gap-3 p-3" style={{ background: "#1c1917" }}>
-                    {graphicPages.map((src, i) => (
-                      <img
-                        key={i}
-                        src={src}
-                        alt={`Portfolio Graphic Designer - halaman ${i + 1}`}
-                        loading="lazy"
-                        className="w-full h-auto block rounded-lg"
-                      />
-                    ))}
-                  </div>
                 </motion.div>
-                </div>
-                </div>
-          </motion.section>
-
-          {/* ── BRANDING ── */}
-          <motion.section
-            id="branding"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={containerVariants}
-            className="max-w-5xl mx-auto mt-40"
-          >
-
-            <div className="flex flex-col md:flex-row gap-16">
-              <div className="flex-shrink-0 md:w-16">
-                <motion.div variants={itemVariants} className="sticky top-24">
-                  <span className="font-mono-dm text-xs text-stone-700 block mb-2">06</span>
-                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(16,185,129,0.3), transparent)" }} />
-                </motion.div>
-              </div>
-
-              <div className="flex-1">
-                <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-6">
-                  <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
-                  <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">Branding</span>
-                </motion.div>
-
-                <motion.h2
-                  variants={itemVariants}
-                  className="font-syne font-bold text-4xl md:text-5xl mb-4 leading-tight"
-                  style={{ letterSpacing: "-0.02em", color: "#fafaf9" }}
-                >
-                  Branding & Logo<br />
-                  <span className="text-stone-500 font-normal">visual identity.</span>
-                </motion.h2>
-
-                <motion.p variants={itemVariants} className="text-stone-500 mb-12 font-sans text-sm leading-relaxed max-w-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                  Selain UI/UX, saya juga mengerjakan desain logo dan identitas visual untuk berbagai produk dan sistem digital dengan pendekatan modern dan bermakna.
-                </motion.p>
-
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {["logo-intan.png", "logo-elecon.png", "logo-vicit.png", "logo-jojanjejen.png", "logo-novacreative.png", "logo-panggilaja.png", "logo-herardo.png", "logo-echorift.png", "logo-huttangerang.png", "logo-duniawaralaba.png"].map((logo, i) => (
-                    <motion.div
-                      key={i}
-                      variants={itemVariants}
-                      whileHover={{ scale: 1.04, y: -4 }}
-                      className="group relative rounded-xl border flex items-center justify-center overflow-hidden transition-all duration-300"
-                      style={{ aspectRatio: "1", background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
-                    >
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" style={{ background: "linear-gradient(135deg, rgba(16,185,129,0.05) 0%, transparent 60%)" }} />
-                      <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "linear-gradient(90deg, transparent, rgba(16,185,129,0.3), transparent)" }} />
-                      <img
-                      src={`/logos/${logo}`}
-                      alt={logo}
-                      className="absolute inset-0 w-full h-full p-6 md:p-8 object-contain grayscale group-hover:grayscale-0 transition-all duration-500 opacity-70 group-hover:opacity-100 z-10"
-                    />
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
+              ))}
             </div>
-          </motion.section>
+
+            <motion.div variants={itemVariants} className="flex items-center gap-5 mt-6 font-mono-dm text-[10px] tracking-wide text-stone-600">
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full" style={{ background: "#10b981" }} /> Core stack
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full" style={{ background: "rgba(255,255,255,0.25)" }} /> Familiar
+              </span>
+            </motion.div>
+          </Section>
+
+          {/* ── 03 WEB PROJECTS ── */}
+          <Section id="web" num="03" label="Web Development" title="Web Projects" subtitle="built from scratch.">
+            <div className="grid md:grid-cols-2 gap-5">
+              {webProjects.map((p) => (
+                <motion.div
+                  key={p.title}
+                  variants={itemVariants}
+                  whileHover={{ y: -8, transition: { type: "spring", stiffness: 300, damping: 20 } }}
+                  className="group card-hover-border relative rounded-2xl overflow-hidden border"
+                  style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
+                >
+                  <div className="relative w-full h-52 overflow-hidden">
+                    <img src={p.image} alt={p.title} className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-all duration-700 group-hover:scale-105" />
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(to top, #0c0a09 0%, rgba(12,10,9,0.4) 60%, transparent 100%)" }} />
+                    <div className="absolute top-3 right-3 px-2 py-1 rounded-md font-mono-dm text-[10px] tracking-wide" style={{ background: "rgba(12,10,9,0.7)", color: p.accent, border: `1px solid ${p.accent}30` }}>
+                      {p.duration}
+                    </div>
+                  </div>
+
+                  <div className="p-6">
+                    <h3 className="font-syne font-bold text-lg text-stone-100 mb-2 tracking-tight">{p.title}</h3>
+                    <p className="text-stone-500 text-sm leading-relaxed mb-5 font-sans" style={{ fontFamily: "'DM Sans', sans-serif" }}>{p.desc}</p>
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {p.tags.map((t) => (
+                        <span key={t} className="text-xs px-3 py-1 rounded-full font-sans" style={{ fontFamily: "'DM Sans', sans-serif", color: "rgba(255,255,255,0.4)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                    <a href={p.link} target="_blank" rel="noopener noreferrer">
+                      <motion.button whileHover={{ x: 4 }} className="flex items-center gap-2 text-sm font-syne font-semibold tracking-wide" style={{ color: p.accent }}>
+                        View Project
+                        <span className="text-base">→</span>
+                      </motion.button>
+                    </a>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </Section>
+
+          {/* ── 04 UI/UX ── */}
+          <Section id="uiux" num="04" label="UI/UX Design" title="UI/UX Projects" subtitle="user-centered design.">
+            <div className="grid md:grid-cols-2 gap-4">
+              {uiuxProjects.map((p) => (
+                <motion.div
+                  key={p.title}
+                  variants={itemVariants}
+                  whileHover={{ y: -6, transition: { type: "spring", stiffness: 300, damping: 20 } }}
+                  className="group card-hover-border relative rounded-2xl p-6 border overflow-hidden"
+                  style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: `radial-gradient(circle, ${p.accent}10 0%, transparent 70%)`, transform: "translate(30%, -30%)" }} />
+                  <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-t-2xl" style={{ background: `linear-gradient(90deg, transparent, ${p.accent}40, transparent)` }} />
+
+                  <div className="relative">
+                    <div className="flex justify-between items-start mb-3">
+                      <h3 className="font-syne font-bold text-base text-stone-100 tracking-tight pr-4">{p.title}</h3>
+                      <span className="font-mono-dm text-[10px] shrink-0 mt-1" style={{ color: p.accent }}>{p.duration}</span>
+                    </div>
+                    <p className="text-stone-500 text-sm leading-relaxed mb-5 font-sans" style={{ fontFamily: "'DM Sans', sans-serif" }}>{p.desc}</p>
+                    <div className="flex flex-wrap gap-1.5 mb-5">
+                      {p.tags.map((t) => (
+                        <span key={t} className="text-xs px-2.5 py-0.5 rounded-full" style={{ color: "rgba(255,255,255,0.35)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)", fontFamily: "'DM Sans', sans-serif" }}>
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                    <a href={p.link} target="_blank" rel="noopener noreferrer">
+                      <motion.button whileHover={{ x: 4 }} className="flex items-center gap-2 text-xs font-syne font-semibold tracking-wide opacity-60 group-hover:opacity-100 transition-opacity" style={{ color: p.accent }}>
+                        View Design →
+                      </motion.button>
+                    </a>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </Section>
+
+          {/* ── 05 MOTION GRAPHIC ── */}
+          <Section
+            id="motion"
+            num="05"
+            label="Motion Graphic"
+            title="Motion Graphic"
+            subtitle="bringing ideas to life."
+            desc="Kumpulan karya motion graphic dan video pendek untuk brand, produk, dan konten sosial media."
+          >
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {motionVideos.map((v) => (
+                <motion.div key={v.src} variants={itemVariants}>
+                  <MotionVideo {...v} />
+                </motion.div>
+              ))}
+            </div>
+          </Section>
+
+          {/* ── 06 GRAPHIC DESIGN ── */}
+          <Section
+            id="graphic"
+            num="06"
+            label="Graphic Design"
+            title="Graphic Design"
+            subtitle="posters & visuals."
+            desc="Karya desain grafis berupa poster, flyer, dan konten visual dengan pendekatan bold, kreatif, dan eye-catching."
+          >
+            <motion.div
+              variants={itemVariants}
+              className="card-hover-border relative rounded-2xl overflow-hidden border"
+              style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
+            >
+              <div className="flex items-center justify-between px-5 py-3 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                <span className="font-mono-dm text-xs text-stone-500 tracking-wide">Bintang - Graphic Designer</span>
+                <span className="font-mono-dm text-xs text-stone-600">{graphicPages.length} halaman</span>
+              </div>
+
+              <div className="flex flex-col gap-3 p-3" style={{ background: "#1c1917" }}>
+                {graphicPages.map((src, i) => (
+                  <img
+                    key={src}
+                    src={src}
+                    alt={`Portfolio Graphic Designer - halaman ${i + 1}`}
+                    loading="lazy"
+                    className="w-full h-auto block rounded-lg"
+                  />
+                ))}
+              </div>
+            </motion.div>
+          </Section>
+
+          {/* ── 07 BRANDING ── */}
+          <Section
+            id="branding"
+            num="07"
+            label="Branding"
+            title="Branding & Logo"
+            subtitle="visual identity."
+            desc="Selain UI/UX, saya juga mengerjakan desain logo dan identitas visual untuk berbagai produk dan sistem digital dengan pendekatan modern dan bermakna."
+          >
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {logos.map((logo) => (
+                <motion.div
+                  key={logo}
+                  variants={itemVariants}
+                  whileHover={{ scale: 1.04, y: -4 }}
+                  className="group relative rounded-xl border flex items-center justify-center overflow-hidden transition-all duration-300"
+                  style={{ aspectRatio: "1", background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
+                >
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" style={{ background: "linear-gradient(135deg, rgba(16,185,129,0.05) 0%, transparent 60%)" }} />
+                  <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "linear-gradient(90deg, transparent, rgba(16,185,129,0.3), transparent)" }} />
+                  <img
+                    src={`/logos/${logo}`}
+                    alt={logo}
+                    className="absolute inset-0 w-full h-full p-6 md:p-8 object-contain grayscale group-hover:grayscale-0 transition-all duration-500 opacity-70 group-hover:opacity-100 z-10"
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </Section>
 
           {/* ── CONTACT ── */}
           <motion.section
@@ -1298,13 +614,12 @@ export default function Portfolio() {
             variants={containerVariants}
             className="max-w-5xl mx-auto mt-40 mb-0"
           >
-            {/* Divider */}
             <div className="h-[1px] mb-20" style={{ background: "linear-gradient(90deg, transparent, rgba(16,185,129,0.15), transparent)" }} />
 
             <div className="text-center">
               <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-8">
                 <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
-                <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">Get In Touch</span>
+                <span className="font-mono-dm text-xs tracking-[0.2em] text-emerald-400/70 uppercase">Get In Touch</span>
                 <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
               </motion.div>
 
@@ -1314,42 +629,33 @@ export default function Portfolio() {
                 style={{ letterSpacing: "-0.03em", color: "#fafaf9" }}
               >
                 Let&apos;s work<br />
-                <span className="gold-shimmer">together.</span>
+                <span className="shimmer-text">together.</span>
               </motion.h2>
 
-              <motion.p variants={itemVariants} className="text-stone-500 mb-14 font-sans text-base max-w-md mx-auto leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+              <motion.p
+                variants={itemVariants}
+                className="text-stone-500 mb-14 font-sans text-base max-w-md mx-auto leading-relaxed"
+                style={{ fontFamily: "'DM Sans', sans-serif" }}
+              >
                 Feel free to reach out for collaboration, freelance work, or full-time opportunities.
               </motion.p>
 
               <motion.div variants={containerVariants} className="flex flex-col md:flex-row justify-center gap-4 max-w-2xl mx-auto">
-                {[
-                  { icon: "📧", label: "masbin544@gmail.com", href: "mailto:masbin544@gmail.com", accent: "#60a5fa" },
-                  { icon: "💬", label: "+62 817 7417 8707", href: "https://wa.me/6281774178707", accent: "#34d399" },
-                  {
-                    icon: (
-                      <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
-                      </svg>
-                    ),
-                    label: "github.com/masbin5",
-                    href: "https://github.com/masbin5",
-                    accent: "#818cf8",
-                  },
-                ].map((item, i) => (
+                {contacts.map((c) => (
                   <motion.a
-                    key={i}
+                    key={c.href}
                     variants={itemVariants}
-                    href={item.href}
-                    target={item.href.startsWith("http") ? "_blank" : undefined}
+                    href={c.href}
+                    target={c.href.startsWith("http") ? "_blank" : undefined}
                     rel="noopener noreferrer"
                     whileHover={{ y: -5, scale: 1.02 }}
-                    className="group flex items-center justify-center gap-3 px-7 py-5 rounded-2xl border flex-1 transition-all duration-300"
+                    className="group relative overflow-hidden flex items-center justify-center gap-3 px-7 py-5 rounded-2xl border flex-1 transition-all duration-300"
                     style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
                   >
-                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: `radial-gradient(ellipse at center, ${item.accent}08 0%, transparent 70%)` }} />
-                    <span className="text-xl group-hover:scale-110 transition-transform duration-300 relative z-10">{item.icon}</span>
+                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: `radial-gradient(ellipse at center, ${c.accent}14 0%, transparent 70%)` }} />
+                    <span className="text-xl group-hover:scale-110 transition-transform duration-300 relative z-10">{c.icon}</span>
                     <span className="text-sm font-sans relative z-10 transition-colors duration-300 text-stone-400 group-hover:text-stone-200" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                      {item.label}
+                      {c.label}
                     </span>
                   </motion.a>
                 ))}
