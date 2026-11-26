@@ -14,6 +14,42 @@ const navItems = [
   { id: "contact", label: "Contact", num: "" },
 ];
 
+const mobileNav = [
+  { id: "web", short: "Web", icon: "code" },
+  { id: "uiux", short: "UI/UX", icon: "layout" },
+  { id: "motion", short: "Motion", icon: "play" },
+  { id: "graphic", short: "Design", icon: "image" },
+  { id: "branding", short: "Brand", icon: "gem" },
+  { id: "contact", short: "Contact", icon: "mail" },
+];
+
+function NavIcon({ name }: { name: string }) {
+  const p = {
+    width: 18,
+    height: 18,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  };
+  switch (name) {
+    case "code":
+      return (<svg {...p}><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></svg>);
+    case "layout":
+      return (<svg {...p}><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18M9 21V9" /></svg>);
+    case "play":
+      return (<svg {...p}><circle cx="12" cy="12" r="9" /><path d="m10 8.5 5 3.5-5 3.5z" /></svg>);
+    case "image":
+      return (<svg {...p}><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="9" cy="9" r="1.5" /><path d="m21 15-5-5L5 21" /></svg>);
+    case "gem":
+      return (<svg {...p}><path d="M6 3h12l4 6-10 13L2 9Z" /><path d="M11 3 8 9l4 13 4-13-3-6" /><path d="M2 9h20" /></svg>);
+    default:
+      return (<svg {...p}><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>);
+  }
+}
+
 const grainSvg = `<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(#n)'/></svg>`;
 const grainUrl = `url("data:image/svg+xml;utf8,${encodeURIComponent(grainSvg)}")`;
 
@@ -78,9 +114,9 @@ function MotionVideo({
           className="w-full h-full object-contain block"
         />
       </div>
-      <div className="p-5 flex items-center justify-between gap-3">
-        <h3 className="font-syne font-bold text-base text-stone-100 tracking-tight">{title}</h3>
-        <span className="font-mono-dm text-[10px] tracking-wide text-amber-400/80 shrink-0">{tag}</span>
+      <div className="p-4 flex flex-col items-start gap-1">
+        <h3 className="font-syne font-bold text-sm text-stone-100 tracking-tight">{title}</h3>
+        <span className="font-mono-dm text-[10px] tracking-wide text-amber-400/80">{tag}</span>
       </div>
     </div>
   );
@@ -140,7 +176,7 @@ export default function Portfolio() {
       tags: ["Next.js", "Framer Motion", "Tailwind"],
       link: "https://projek-landingpage-cbda.vercel.app/",
       image: "/projects/portofolio-web.png",
-      accent: "#f59e0b",
+      accent: "#10b981",
     },
     {
       title: "Web Project – Company Profile",
@@ -158,7 +194,7 @@ export default function Portfolio() {
       tags: ["HTML", "CSS", "JS"],
       link: "https://toko-roti-lafarine.vercel.app/",
       image: "/projects/tokoroti.png",
-      accent: "#f59e0b",
+      accent: "#10b981",
     },
     {
       title: "Website Konsultasi Kesehatan",
@@ -187,7 +223,7 @@ export default function Portfolio() {
       duration: "1 Minggu",
       tags: ["UI/UX", "Mobile App", "Figma"],
       link: "https://www.figma.com/design/xjtxgCb06ehlCZN1yaZjFq/Uper-Food?node-id=0-1",
-      accent: "#f59e0b",
+      accent: "#10b981",
     },
     {
       title: "Elecon-Apps",
@@ -242,6 +278,7 @@ export default function Portfolio() {
     { src: "/motion/invly.id - mini task - Bintang.mp4", title: "invly.id – Mini Task", tag: "Motion Graphic", aspect: "9/16" },
     { src: "/motion/Digium Vid Tiktok.mp4", title: "Digium – Video TikTok", tag: "TikTok", aspect: "9/16" },
     { src: "/motion/Nusantara Sweet - Motion Graphc.mp4", title: "Nusantara Sweet", tag: "Motion Graphic", aspect: "9/16" },
+        { src: "/motion/Lift Lantai 13.mp4", title: "Lift Lantai 13", tag: "Motion Graphic", aspect: "9/16" },
   ];
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -253,27 +290,52 @@ export default function Portfolio() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
   };
 
-  const frontendSkills = [
-    { name: "HTML", value: 95, icon: "⌨" },
-    { name: "CSS / Tailwind", value: 90, icon: "✦" },
-    { name: "JavaScript", value: 85, icon: "⚡" },
-    { name: "React.js", value: 80, icon: "⚛" },
-    { name: "Next.js", value: 75, icon: "▲" },
+    const skillGroups = [
+    {
+      title: "Frontend",
+      icon: "⌨",
+      items: [
+        { name: "HTML5", core: true },
+        { name: "CSS3", core: true },
+        { name: "JavaScript (ES6+)", core: true },
+        { name: "TypeScript", core: false },
+        { name: "React.js", core: true },
+        { name: "Next.js", core: true },
+        { name: "Tailwind CSS", core: true },
+        { name: "Bootstrap", core: false },
+        { name: "Framer Motion", core: false },
+        { name: "shadcn/ui", core: false },
+        { name: "Responsive Design", core: true },
+      ],
+    },
+    {
+      title: "Backend & Database",
+      icon: "⬢",
+      items: [
+        { name: "Laravel", core: true },
+        { name: "PHP", core: true },
+        { name: "Node.js", core: false },
+        { name: "Express.js", core: false },
+        { name: "MySQL", core: true },
+        { name: "REST API", core: true },
+      ],
+    },
+    {
+      title: "Tools & Workflow",
+      icon: "◈",
+      items: [
+        { name: "Git", core: true },
+        { name: "GitHub", core: true },
+        { name: "VS Code", core: true },
+        { name: "Figma", core: true },
+        { name: "Vercel", core: false },
+        { name: "Postman", core: false },
+        { name: "npm", core: false },
+        { name: "Chrome DevTools", core: false },
+      ],
+    },
   ];
-
-  const uiuxSkills = [
-    { name: "Figma", value: 90, icon: "◈" },
-    { name: "Wireframing", value: 85, icon: "⬡" },
-    { name: "Prototyping", value: 88, icon: "◎" },
-    { name: "User Flow", value: 80, icon: "⟡" },
-    { name: "Design System", value: 65, icon: "◻" },
-  ];
-
-  const backendSkills = [
-    { name: "MySQL", value: 75, icon: "◈" },
-    { name: "Laravel", value: 70, icon: "🔺" },
-    { name: "Node.js", value: 65, icon: "⬢" },
-  ];
+  
   const graphicPages = Array.from(
   { length: 13 },
   (_, i) => `/graphic/pages/page-${String(i + 1).padStart(2, "0")}.jpg`
@@ -328,7 +390,7 @@ export default function Portfolio() {
         .pulse-ring { animation: pulse-ring 4s ease-in-out infinite; }
 
         .gold-shimmer {
-          background: linear-gradient(90deg, #f59e0b, #fbbf24, #f59e0b, #fcd34d, #f59e0b);
+          background: linear-gradient(90deg, #6ee7b7, #ecfdf5, #34d399, #d1fae5, #6ee7b7);
           background-size: 200% auto;
           -webkit-background-clip: text;
           background-clip: text;
@@ -340,7 +402,7 @@ export default function Portfolio() {
           transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .card-hover-border:hover {
-          box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.25), 0 20px 60px -20px rgba(245, 158, 11, 0.1);
+          box-shadow: 0 0 0 1px rgba(16,185,129, 0.25), 0 20px 60px -20px rgba(16,185,129, 0.1);
         }
 
         .marquee-track { animation: marquee 20s linear infinite; }
@@ -350,7 +412,7 @@ export default function Portfolio() {
 
         ::-webkit-scrollbar { width: 3px; }
         ::-webkit-scrollbar-track { background: #0c0a09; }
-        ::-webkit-scrollbar-thumb { background: rgba(245, 158, 11, 0.3); border-radius: 2px; }
+        ::-webkit-scrollbar-thumb { background: rgba(16,185,129, 0.3); border-radius: 2px; }
       `}</style>
 
       {/* Custom cursor */}
@@ -385,21 +447,21 @@ export default function Portfolio() {
           translateY: "-50%",
           width: 500,
           height: 500,
-          background: "radial-gradient(circle, rgba(242,107,29,0.05) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(16,185,129,0.05) 0%, transparent 70%)",
         }}
       />
 
-      <div
+            <div
         className="min-h-screen text-stone-100 px-6 py-0 relative overflow-hidden font-syne"
         style={{ background: "#0c0a09" }}
       >
-        {/* Background: gradasi oranye → hitam bergaya grunge */}
+        {/* Background: gradasi hijau → hitam bergaya grunge */}
         <div className="absolute inset-x-0 top-0 h-[115vh] pointer-events-none z-0 overflow-hidden">
           <div
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(to bottom, #f2661c 0%, #d9551a 12%, #a8410f 28%, #5c240a 46%, #1a0e08 64%, #0c0a09 82%)",
+                "linear-gradient(to bottom, #0f7a55 0%, #0d6647 12%, #0a4a35 28%, #07301f 46%, #06140e 64%, #0c0a09 82%)",
             }}
           />
           {/* Goresan vertikal */}
@@ -411,7 +473,7 @@ export default function Portfolio() {
                 left: s.l,
                 height: s.h,
                 background: s.light
-                  ? `linear-gradient(to bottom, rgba(255,214,180,${s.o}), transparent)`
+                  ? `linear-gradient(to bottom, rgba(209,250,229,${s.o}), transparent)`
                   : `linear-gradient(to bottom, rgba(0,0,0,${s.o * 2}), transparent)`,
               }}
             />
@@ -427,29 +489,29 @@ export default function Portfolio() {
         {/* Floating geometric shapes */}
         <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
           {/* Diamond top-right */}
-          <div className="geo-1 absolute" style={{ top: "12%", right: "8%", width: 60, height: 60, border: "1px solid rgba(242,107,29,0.16)", transform: "rotate(45deg)" }} />
+          <div className="geo-1 absolute" style={{ top: "12%", right: "8%", width: 60, height: 60, border: "1px solid rgba(16,185,129,0.16)", transform: "rotate(45deg)" }} />
           {/* Circle mid-left */}
-          <div className="geo-2 absolute" style={{ top: "38%", left: "4%", width: 90, height: 90, border: "1px solid rgba(242,107,29,0.1)", borderRadius: "50%" }} />
+          <div className="geo-2 absolute" style={{ top: "38%", left: "4%", width: 90, height: 90, border: "1px solid rgba(16,185,129,0.1)", borderRadius: "50%" }} />
           {/* Small square bottom-left */}
-          <div className="geo-3 absolute" style={{ bottom: "20%", left: "10%", width: 30, height: 30, border: "1px solid rgba(255,143,74,0.18)", transform: "rotate(30deg)" }} />
+          <div className="geo-3 absolute" style={{ bottom: "20%", left: "10%", width: 30, height: 30, border: "1px solid rgba(52,211,153,0.18)", transform: "rotate(30deg)" }} />
           {/* Triangle-ish polygon */}
           <svg className="geo-1 absolute" style={{ top: "65%", right: "6%", opacity: 0.09 }} width="80" height="80" viewBox="0 0 80 80">
-            <polygon points="40,4 76,68 4,68" fill="none" stroke="#f26b1d" strokeWidth="1" />
+            <polygon points="40,4 76,68 4,68" fill="none" stroke="#10b981" strokeWidth="1" />
           </svg>
           {/* Dotted grid pattern */}
           <svg className="absolute" style={{ top: "25%", right: "18%", opacity: 0.05 }} width="120" height="120" viewBox="0 0 120 120">
             {Array.from({ length: 5 }).map((_, r) =>
               Array.from({ length: 5 }).map((_, c) => (
-                <circle key={`${r}-${c}`} cx={c * 24 + 12} cy={r * 24 + 12} r="2" fill="#f26b1d" />
+                <circle key={`${r}-${c}`} cx={c * 24 + 12} cy={r * 24 + 12} r="2" fill="#10b981" />
               ))
             )}
           </svg>
         </div>
 
         {/* Top border accent line */}
-        <div className="fixed top-0 left-0 right-0 h-[1px] z-50" style={{ background: "linear-gradient(90deg, transparent, rgba(245,158,11,0.5), transparent)" }} />
+        <div className="fixed top-0 left-0 right-0 h-[1px] z-50" style={{ background: "linear-gradient(90deg, transparent, rgba(16,185,129,0.5), transparent)" }} />
                 {/* Navigation */}
-        <div className="fixed top-4 inset-x-0 z-50 flex justify-center px-3 pointer-events-none">
+        <div className="hidden md:flex fixed top-4 inset-x-0 z-50 justify-center px-3 pointer-events-none">
           <motion.nav
             initial={{ opacity: 0, y: -24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -459,7 +521,7 @@ export default function Portfolio() {
               background: "rgba(12,10,9,0.72)",
               backdropFilter: "blur(16px)",
               WebkitBackdropFilter: "blur(16px)",
-              borderColor: "rgba(245,158,11,0.18)",
+              borderColor: "rgba(16,185,129,0.18)",
               boxShadow: "0 10px 40px -12px rgba(0,0,0,0.6)",
             }}
           >
@@ -481,7 +543,7 @@ export default function Portfolio() {
               </span>
             </a>
 
-            <div className="w-px h-5 shrink-0" style={{ background: "rgba(245,158,11,0.18)" }} />
+            <div className="w-px h-5 shrink-0" style={{ background: "rgba(16,185,129,0.18)" }} />
 
             {/* Link section */}
             <div className="flex items-center gap-0.5 px-1 min-w-0 overflow-x-auto no-scrollbar">
@@ -500,8 +562,8 @@ export default function Portfolio() {
                           layoutId="nav-active"
                           className="absolute inset-0 rounded-full"
                           style={{
-                            background: "rgba(245,158,11,0.12)",
-                            border: "1px solid rgba(245,158,11,0.3)",
+                            background: "rgba(16,185,129,0.12)",
+                            border: "1px solid rgba(16,185,129,0.3)",
                           }}
                           transition={{ type: "spring", stiffness: 380, damping: 32 }}
                         />
@@ -525,7 +587,7 @@ export default function Portfolio() {
                 })}
             </div>
 
-            <div className="w-px h-5 shrink-0 mx-1" style={{ background: "rgba(245,158,11,0.18)" }} />
+            <div className="w-px h-5 shrink-0 mx-1" style={{ background: "rgba(16,185,129,0.18)" }} />
 
             {/* CTA Contact */}
             <motion.a
@@ -533,7 +595,7 @@ export default function Portfolio() {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
               className="shrink-0 px-4 py-2 rounded-full text-xs font-syne font-semibold tracking-wide text-stone-900"
-              style={{ background: "linear-gradient(135deg, #f59e0b, #fbbf24)" }}
+              style={{ background: "linear-gradient(135deg, #10b981, #34d399)" }}
             >
               Contact
             </motion.a>
@@ -541,12 +603,64 @@ export default function Portfolio() {
             {/* Garis progres scroll */}
             <motion.div
               className="absolute left-0 bottom-0 h-[2px] w-full origin-left"
-              style={{ scaleX: scrollYProgress, background: "linear-gradient(90deg, #f59e0b, #fcd34d)" }}
+              style={{ scaleX: scrollYProgress, background: "linear-gradient(90deg, #10b981, #a7f3d0)" }}
             />
           </motion.nav>
+                  {/* Navigation mobile: dock bawah */}
+        <div className="md:hidden fixed bottom-4 inset-x-0 z-50 flex justify-center px-3 pointer-events-none">
+          <motion.nav
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="pointer-events-auto flex items-center gap-1 rounded-full border p-1.5 max-w-full"
+            style={{
+              background: "rgba(12,10,9,0.78)",
+              backdropFilter: "blur(18px)",
+              WebkitBackdropFilter: "blur(18px)",
+              borderColor: "rgba(16,185,129,0.22)",
+              boxShadow: "0 12px 40px -10px rgba(0,0,0,0.7)",
+              marginBottom: "env(safe-area-inset-bottom)",
+            }}
+          >
+            {mobileNav.map((n) => {
+              const active = activeSection === n.id;
+              const isContact = n.id === "contact";
+              return (
+                <a
+                  key={n.id}
+                  href={`#${n.id}`}
+                  aria-label={n.short}
+                  className="relative flex items-center justify-center h-10 rounded-full px-2.5"
+                  style={isContact ? { background: "linear-gradient(135deg, #10b981, #34d399)", color: "#0c0a09" } : undefined}
+                >
+                  {active && !isContact && (
+                    <motion.span
+                      layoutId="m-nav-active"
+                      className="absolute inset-0 rounded-full"
+                      style={{ background: "rgba(16,185,129,0.14)", border: "1px solid rgba(16,185,129,0.35)" }}
+                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                    />
+                  )}
+                  <span className={`relative z-10 transition-colors duration-300 ${isContact ? "" : active ? "text-amber-400" : "text-stone-400"}`}>
+                    <NavIcon name={n.icon} />
+                  </span>
+                  <motion.span
+                    initial={false}
+                    animate={{ width: active ? "auto" : 0, opacity: active ? 1 : 0, marginLeft: active ? 6 : 0 }}
+                    transition={{ duration: 0.25 }}
+                    className={`relative z-10 overflow-hidden whitespace-nowrap font-syne font-semibold text-xs ${isContact ? "" : "text-stone-50"}`}
+                  >
+                    {n.short}
+                  </motion.span>
+                </a>
+              );
+            })}
+          </motion.nav>
+        </div>
+        
         </div>
         {/* Thin vertical line left */}
-        <div className="fixed top-0 left-[3.5rem] bottom-0 w-px z-0 hidden md:block" style={{ background: "linear-gradient(to bottom, transparent, rgba(245,158,11,0.06) 20%, rgba(245,158,11,0.06) 80%, transparent)" }} />
+        <div className="fixed top-0 left-[3.5rem] bottom-0 w-px z-0 hidden md:block" style={{ background: "linear-gradient(to bottom, transparent, rgba(16,185,129,0.06) 20%, rgba(16,185,129,0.06) 80%, transparent)" }} />
 
         <div className="relative z-10">
 
@@ -562,7 +676,7 @@ export default function Portfolio() {
               transition={{ delay: 0.1, duration: 0.7 }}
               className="flex items-center gap-3 mb-10"
             >
-              <div className="w-8 h-[1px]" style={{ background: "rgba(245,158,11,0.6)" }} />
+              <div className="w-8 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
               <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">Portfolio 2026</span>
             </motion.div>
 
@@ -602,7 +716,7 @@ export default function Portfolio() {
                       whileHover={{ scale: 1.03, y: -2 }}
                       whileTap={{ scale: 0.97 }}
                       className="relative px-7 py-3.5 text-sm font-semibold tracking-wide text-stone-900 rounded-full overflow-hidden"
-                      style={{ background: "linear-gradient(135deg, #f59e0b, #fbbf24)" }}
+                      style={{ background: "linear-gradient(135deg, #10b981, #34d399)" }}
                     >
                       <span className="relative z-10">Contact Me</span>
                     </motion.button>
@@ -612,7 +726,7 @@ export default function Portfolio() {
                       whileHover={{ scale: 1.03, y: -2 }}
                       whileTap={{ scale: 0.97 }}
                       className="px-7 py-3.5 text-sm font-medium tracking-wide rounded-full text-stone-300 border transition-all"
-                      style={{ borderColor: "rgba(245,158,11,0.2)", background: "rgba(245,158,11,0.04)" }}
+                      style={{ borderColor: "rgba(16,185,129,0.2)", background: "rgba(16,185,129,0.04)" }}
                     >
                       Download CV
                     </motion.button>
@@ -641,16 +755,16 @@ export default function Portfolio() {
                 className="relative flex-shrink-0"
               >
                 {/* Decorative rings */}
-                <div className="pulse-ring absolute inset-[-24px] rounded-[2.5rem] border" style={{ borderColor: "rgba(245,158,11,0.15)" }} />
-                <div className="pulse-ring absolute inset-[-44px] rounded-[3rem] border" style={{ borderColor: "rgba(245,158,11,0.07)", animationDelay: "1.5s" }} />
+                <div className="pulse-ring absolute inset-[-24px] rounded-[2.5rem] border" style={{ borderColor: "rgba(16,185,129,0.15)" }} />
+                <div className="pulse-ring absolute inset-[-44px] rounded-[3rem] border" style={{ borderColor: "rgba(16,185,129,0.07)", animationDelay: "1.5s" }} />
 
                 <div
                   className="relative w-64 h-72 rounded-[2rem] overflow-hidden border"
-                  style={{ borderColor: "rgba(245,158,11,0.15)", background: "#1c1917" }}
+                  style={{ borderColor: "rgba(16,185,129,0.15)", background: "#1c1917" }}
                 >
                   {/* Corner accents */}
-                  <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 rounded-tl-2xl" style={{ borderColor: "rgba(245,158,11,0.5)" }} />
-                  <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 rounded-br-2xl" style={{ borderColor: "rgba(245,158,11,0.5)" }} />
+                  <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 rounded-tl-2xl" style={{ borderColor: "rgba(16,185,129,0.5)" }} />
+                  <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 rounded-br-2xl" style={{ borderColor: "rgba(16,185,129,0.5)" }} />
 
                   <img src="/profile/profile.jpg" alt="Bintang Akbar Alim" className="w-full h-full object-cover opacity-90" />
                   <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(12,10,9,0.5) 0%, transparent 50%)" }} />
@@ -663,9 +777,9 @@ export default function Portfolio() {
                   whileTap={{ scale: 0.95 }}
                   className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-mono-dm tracking-wide cursor-pointer select-none"
                   style={{
-                    background: available ? "rgba(245,158,11,0.1)" : "rgba(255,255,255,0.03)",
-                    borderColor: available ? "rgba(245,158,11,0.3)" : "rgba(255,255,255,0.08)",
-                    color: available ? "#fbbf24" : "#64748b",
+                    background: available ? "rgba(16,185,129,0.1)" : "rgba(255,255,255,0.03)",
+                    borderColor: available ? "rgba(16,185,129,0.3)" : "rgba(255,255,255,0.08)",
+                    color: available ? "#34d399" : "#64748b",
                   }}
                 >
                   {available && (
@@ -691,16 +805,16 @@ export default function Portfolio() {
                 animate={{ y: [0, 6, 0] }}
                 transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
                 className="w-[1px] h-8 rounded-full"
-                style={{ background: "linear-gradient(to bottom, rgba(245,158,11,0.4), transparent)" }}
+                style={{ background: "linear-gradient(to bottom, rgba(16,185,129,0.4), transparent)" }}
               />
             </motion.div>
           </motion.section>
 
           {/* ── MARQUEE STRIP ── */}
-          <div className="relative overflow-hidden py-6 my-20 border-y" style={{ borderColor: "rgba(245,158,11,0.06)" }}>
+          <div className="relative overflow-hidden py-6 my-20 border-y" style={{ borderColor: "rgba(16,185,129,0.06)" }}>
             <div className="flex gap-16 marquee-track whitespace-nowrap">
               {["UI/UX Design", "Figma", "Next.js", "React.js", "Tailwind CSS", "Framer Motion", "Graphic Design", "Laravel", "Visual Branding", "UI/UX Design", "Figma", "Next.js", "React.js", "Tailwind CSS", "Framer Motion", "Graphic Design", "Laravel", "Visual Branding"].map((t, i) => (
-                <span key={i} className="font-syne font-semibold text-sm tracking-widest uppercase" style={{ color: i % 3 === 1 ? "rgba(245,158,11,0.4)" : "rgba(255,255,255,0.06)" }}>
+                <span key={i} className="font-syne font-semibold text-sm tracking-widest uppercase" style={{ color: i % 3 === 1 ? "rgba(16,185,129,0.4)" : "rgba(255,255,255,0.06)" }}>
                   {t}
                 </span>
               ))}
@@ -720,13 +834,13 @@ export default function Portfolio() {
               <div className="flex-shrink-0 md:w-16">
                 <motion.div variants={itemVariants} className="sticky top-24">
                   <span className="font-mono-dm text-xs text-stone-700 block mb-2">01</span>
-                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(245,158,11,0.3), transparent)" }} />
+                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(16,185,129,0.3), transparent)" }} />
                 </motion.div>
               </div>
 
               <div className="flex-1">
                 <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-6">
-                  <div className="w-4 h-[1px]" style={{ background: "rgba(245,158,11,0.6)" }} />
+                  <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
                   <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">About Me</span>
                 </motion.div>
 
@@ -769,13 +883,13 @@ export default function Portfolio() {
               <div className="flex-shrink-0 md:w-16">
                 <motion.div variants={itemVariants} className="sticky top-24">
                   <span className="font-mono-dm text-xs text-stone-700 block mb-2">02</span>
-                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(245,158,11,0.3), transparent)" }} />
+                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(16,185,129,0.3), transparent)" }} />
                 </motion.div>
               </div>
 
               <div className="flex-1">
                 <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-6">
-                  <div className="w-4 h-[1px]" style={{ background: "rgba(245,158,11,0.6)" }} />
+                  <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
                   <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">Skills & Expertise</span>
                 </motion.div>
 
@@ -788,114 +902,55 @@ export default function Portfolio() {
                   <span className="text-stone-500 font-normal">to the table.</span>
                 </motion.h2>
 
-                <div className="grid md:grid-cols-3 gap-5">
-                  {/* Frontend */}
-                  <motion.div
-                    variants={itemVariants}
-                    className="card-hover-border relative rounded-2xl p-7 overflow-hidden border"
-                    style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
-                  >
-                    <div className="absolute inset-0 rounded-2xl" style={{ background: "linear-gradient(135deg, rgba(245,158,11,0.03) 0%, transparent 60%)" }} />
-                    <div className="relative">
-                      <div className="flex items-center gap-3 mb-7">
-                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm" style={{ background: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.2)" }}>
-                          ⌨
-                        </div>
-                        <h3 className="font-syne font-semibold text-sm tracking-wide text-amber-400">Frontend</h3>
-                      </div>
-                      {frontendSkills.map((s, i) => (
-                        <div key={i} className="mb-5 last:mb-0">
-                          <div className="flex justify-between text-xs mb-2">
-                            <span className="text-stone-400 font-sans" style={{ fontFamily: "'DM Sans', sans-serif" }}>{s.name}</span>
-                            <span className="font-mono-dm text-stone-600">{s.value}%</span>
+                                <div className="grid md:grid-cols-3 gap-5">
+                  {skillGroups.map((g, gi) => (
+                    <motion.div
+                      key={gi}
+                      variants={itemVariants}
+                      className="card-hover-border relative rounded-2xl p-7 overflow-hidden border"
+                      style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
+                    >
+                      <div className="absolute inset-0 rounded-2xl" style={{ background: "linear-gradient(135deg, rgba(16,185,129,0.05) 0%, transparent 60%)" }} />
+                      <div className="relative">
+                        <div className="flex items-center justify-between mb-6">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm" style={{ background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.25)" }}>
+                              {g.icon}
+                            </div>
+                            <h3 className="font-syne font-semibold text-sm tracking-wide text-amber-400">{g.title}</h3>
                           </div>
-                          <div className="h-[2px] rounded-full" style={{ background: "rgba(255,255,255,0.04)" }}>
-                            <motion.div
-                              initial={{ width: 0 }}
-                              whileInView={{ width: `${s.value}%` }}
-                              viewport={{ once: true }}
-                              transition={{ duration: 1.4, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                              className="h-full rounded-full relative overflow-hidden"
-                              style={{ background: "linear-gradient(90deg, #f59e0b, #fcd34d)" }}
+                          <span className="font-mono-dm text-[10px] text-stone-600">{String(g.items.length).padStart(2, "0")}</span>
+                        </div>
+
+                        <div className="flex flex-wrap gap-2">
+                          {g.items.map((t) => (
+                            <span
+                              key={t.name}
+                              className="text-xs px-3 py-1.5 rounded-full transition-all duration-300 hover:-translate-y-0.5"
+                              style={
+                                t.core
+                                  ? { color: "#a7f3d0", background: "rgba(16,185,129,0.12)", border: "1px solid rgba(16,185,129,0.35)", fontFamily: "'DM Sans', sans-serif" }
+                                  : { color: "rgba(255,255,255,0.55)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", fontFamily: "'DM Sans', sans-serif" }
+                              }
                             >
-                              <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)", animation: "shimmer2 2s infinite" }} />
-                            </motion.div>
-                          </div>
+                              {t.name}
+                            </span>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  </motion.div>
-
-                  {/* UI/UX */}
-                  <motion.div
-                    variants={itemVariants}
-                    className="card-hover-border relative rounded-2xl p-7 overflow-hidden border"
-                    style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
-                  >
-                    <div className="absolute inset-0 rounded-2xl" style={{ background: "linear-gradient(135deg, rgba(192,132,252,0.03) 0%, transparent 60%)" }} />
-                    <div className="relative">
-                      <div className="flex items-center gap-3 mb-7">
-                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm" style={{ background: "rgba(192,132,252,0.1)", border: "1px solid rgba(192,132,252,0.2)" }}>
-                          ◈
-                        </div>
-                        <h3 className="font-syne font-semibold text-sm tracking-wide text-purple-400">UI/UX & Design</h3>
                       </div>
-                      {uiuxSkills.map((s, i) => (
-                        <div key={i} className="mb-5 last:mb-0">
-                          <div className="flex justify-between text-xs mb-2">
-                            <span className="text-stone-400 font-sans" style={{ fontFamily: "'DM Sans', sans-serif" }}>{s.name}</span>
-                            <span className="font-mono-dm text-stone-600">{s.value}%</span>
-                          </div>
-                          <div className="h-[2px] rounded-full" style={{ background: "rgba(255,255,255,0.04)" }}>
-                            <motion.div
-                              initial={{ width: 0 }}
-                              whileInView={{ width: `${s.value}%` }}
-                              viewport={{ once: true }}
-                              transition={{ duration: 1.4, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                              className="h-full rounded-full"
-                              style={{ background: "linear-gradient(90deg, #a855f7, #e879f9)" }}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-
-                  {/* Backend */}
-                  <motion.div
-                    variants={itemVariants}
-                    className="card-hover-border relative rounded-2xl p-7 overflow-hidden border"
-                    style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
-                  >
-                    <div className="absolute inset-0 rounded-2xl" style={{ background: "linear-gradient(135deg, rgba(52,211,153,0.03) 0%, transparent 60%)" }} />
-                    <div className="relative">
-                      <div className="flex items-center gap-3 mb-7">
-                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm" style={{ background: "rgba(52,211,153,0.1)", border: "1px solid rgba(52,211,153,0.2)" }}>
-                          ⬢
-                        </div>
-                        <h3 className="font-syne font-semibold text-sm tracking-wide text-emerald-400">Backend</h3>
-                      </div>
-                      {backendSkills.map((s, i) => (
-                        <div key={i} className="mb-5 last:mb-0">
-                          <div className="flex justify-between text-xs mb-2">
-                            <span className="text-stone-400 font-sans" style={{ fontFamily: "'DM Sans', sans-serif" }}>{s.name}</span>
-                            <span className="font-mono-dm text-stone-600">{s.value}%</span>
-                          </div>
-                          <div className="h-[2px] rounded-full" style={{ background: "rgba(255,255,255,0.04)" }}>
-                            <motion.div
-                              initial={{ width: 0 }}
-                              whileInView={{ width: `${s.value}%` }}
-                              viewport={{ once: true }}
-                              transition={{ duration: 1.4, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                              className="h-full rounded-full"
-                              style={{ background: "linear-gradient(90deg, #34d399, #6ee7b7)" }}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
+                    </motion.div>
+                  ))}
                 </div>
+
+                {/* Legend */}
+                <motion.div variants={itemVariants} className="flex items-center gap-5 mt-6 font-mono-dm text-[10px] tracking-wide text-stone-600">
+                  <span className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full" style={{ background: "#10b981" }} /> Core stack
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full" style={{ background: "rgba(255,255,255,0.25)" }} /> Familiar
+                  </span>
+                </motion.div>
               </div>
             </div>
           </motion.section>
@@ -913,13 +968,13 @@ export default function Portfolio() {
               <div className="flex-shrink-0 md:w-16">
                 <motion.div variants={itemVariants} className="sticky top-24">
                   <span className="font-mono-dm text-xs text-stone-700 block mb-2">03</span>
-                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(245,158,11,0.3), transparent)" }} />
+                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(16,185,129,0.3), transparent)" }} />
                 </motion.div>
               </div>
 
               <div className="flex-1">
                 <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-6">
-                  <div className="w-4 h-[1px]" style={{ background: "rgba(245,158,11,0.6)" }} />
+                  <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
                   <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">Web Development</span>
                 </motion.div>
 
@@ -993,13 +1048,13 @@ export default function Portfolio() {
               <div className="flex-shrink-0 md:w-16">
                 <motion.div variants={itemVariants} className="sticky top-24">
                   <span className="font-mono-dm text-xs text-stone-700 block mb-2">04</span>
-                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(245,158,11,0.3), transparent)" }} />
+                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(16,185,129,0.3), transparent)" }} />
                 </motion.div>
               </div>
 
               <div className="flex-1">
                 <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-6">
-                  <div className="w-4 h-[1px]" style={{ background: "rgba(245,158,11,0.6)" }} />
+                  <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
                   <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">UI/UX Design</span>
                 </motion.div>
 
@@ -1069,13 +1124,13 @@ export default function Portfolio() {
               <div className="flex-shrink-0 md:w-16">
                 <motion.div variants={itemVariants} className="sticky top-24">
                   <span className="font-mono-dm text-xs text-stone-700 block mb-2">06</span>
-                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(242,107,29,0.3), transparent)" }} />
+                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(16,185,129,0.3), transparent)" }} />
                 </motion.div>
               </div>
 
               <div className="flex-1">
                 <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-6">
-                  <div className="w-4 h-[1px]" style={{ background: "rgba(242,107,29,0.6)" }} />
+                  <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
                   <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">Motion Graphic</span>
                 </motion.div>
 
@@ -1092,7 +1147,7 @@ export default function Portfolio() {
                   Kumpulan karya motion graphic dan video pendek untuk brand, produk, dan konten sosial media.
                 </motion.p>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {motionVideos.map((v, i) => (
                     <motion.div key={i} variants={itemVariants}>
                       <MotionVideo {...v} />
@@ -1115,13 +1170,13 @@ export default function Portfolio() {
               <div className="flex-shrink-0 md:w-16">
                 <motion.div variants={itemVariants} className="sticky top-24">
                   <span className="font-mono-dm text-xs text-stone-700 block mb-2">05</span>
-                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(245,158,11,0.3), transparent)" }} />
+                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(16,185,129,0.3), transparent)" }} />
                 </motion.div>
               </div>
 
               <div className="flex-1">
                 <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-6">
-                  <div className="w-4 h-[1px]" style={{ background: "rgba(245,158,11,0.6)" }} />
+                  <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
                   <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">Graphic Design</span>
                 </motion.div>
 
@@ -1187,13 +1242,13 @@ export default function Portfolio() {
               <div className="flex-shrink-0 md:w-16">
                 <motion.div variants={itemVariants} className="sticky top-24">
                   <span className="font-mono-dm text-xs text-stone-700 block mb-2">06</span>
-                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(245,158,11,0.3), transparent)" }} />
+                  <div className="w-[1px] h-24 mx-auto" style={{ background: "linear-gradient(to bottom, rgba(16,185,129,0.3), transparent)" }} />
                 </motion.div>
               </div>
 
               <div className="flex-1">
                 <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-6">
-                  <div className="w-4 h-[1px]" style={{ background: "rgba(245,158,11,0.6)" }} />
+                  <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
                   <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">Branding</span>
                 </motion.div>
 
@@ -1219,8 +1274,8 @@ export default function Portfolio() {
                       className="group relative rounded-xl border flex items-center justify-center overflow-hidden transition-all duration-300"
                       style={{ aspectRatio: "1", background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)" }}
                     >
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" style={{ background: "linear-gradient(135deg, rgba(245,158,11,0.05) 0%, transparent 60%)" }} />
-                      <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "linear-gradient(90deg, transparent, rgba(245,158,11,0.3), transparent)" }} />
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" style={{ background: "linear-gradient(135deg, rgba(16,185,129,0.05) 0%, transparent 60%)" }} />
+                      <div className="absolute top-0 left-0 right-0 h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: "linear-gradient(90deg, transparent, rgba(16,185,129,0.3), transparent)" }} />
                       <img
                       src={`/logos/${logo}`}
                       alt={logo}
@@ -1243,13 +1298,13 @@ export default function Portfolio() {
             className="max-w-5xl mx-auto mt-40 mb-0"
           >
             {/* Divider */}
-            <div className="h-[1px] mb-20" style={{ background: "linear-gradient(90deg, transparent, rgba(245,158,11,0.15), transparent)" }} />
+            <div className="h-[1px] mb-20" style={{ background: "linear-gradient(90deg, transparent, rgba(16,185,129,0.15), transparent)" }} />
 
             <div className="text-center">
               <motion.div variants={itemVariants} className="inline-flex items-center gap-2 mb-8">
-                <div className="w-4 h-[1px]" style={{ background: "rgba(245,158,11,0.6)" }} />
+                <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
                 <span className="font-mono-dm text-xs tracking-[0.2em] text-amber-400/70 uppercase">Get In Touch</span>
-                <div className="w-4 h-[1px]" style={{ background: "rgba(245,158,11,0.6)" }} />
+                <div className="w-4 h-[1px]" style={{ background: "rgba(16,185,129,0.6)" }} />
               </motion.div>
 
               <motion.h2
@@ -1307,14 +1362,14 @@ export default function Portfolio() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="max-w-5xl mx-auto mt-24 py-10 flex flex-col md:flex-row items-center justify-between gap-4"
+            className="max-w-5xl mx-auto mt-24 pt-10 pb-28 md:pb-10 flex flex-col md:flex-row items-center justify-between gap-4"
             style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}
           >
             <span className="font-mono-dm text-xs text-stone-700 tracking-widest uppercase">
               © {new Date().getFullYear()} Bintang Akbar Alim
             </span>
             <div className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full" style={{ background: "rgba(245,158,11,0.5)" }} />
+              <div className="w-1.5 h-1.5 rounded-full" style={{ background: "rgba(16,185,129,0.5)" }} />
               <span className="font-mono-dm text-xs text-stone-700 tracking-widest uppercase">
                 UI/UX · Web Dev · Graphic Designer
               </span>
