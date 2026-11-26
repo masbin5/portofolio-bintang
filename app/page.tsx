@@ -606,6 +606,7 @@ export default function Portfolio() {
               style={{ scaleX: scrollYProgress, background: "linear-gradient(90deg, #10b981, #a7f3d0)" }}
             />
           </motion.nav>
+        </div>
                   {/* Navigation mobile: dock bawah */}
         <div className="md:hidden fixed bottom-4 inset-x-0 z-50 flex justify-center px-3 pointer-events-none">
           <motion.nav
@@ -657,7 +658,7 @@ export default function Portfolio() {
             })}
           </motion.nav>
         </div>
-        
+
         </div>
         {/* Thin vertical line left */}
         <div className="fixed top-0 left-[3.5rem] bottom-0 w-px z-0 hidden md:block" style={{ background: "linear-gradient(to bottom, transparent, rgba(16,185,129,0.06) 20%, rgba(16,185,129,0.06) 80%, transparent)" }} />
